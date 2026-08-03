@@ -62,10 +62,14 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 Plain language, for people who already use AI at work but have no technical background.
 
 **The slides are a backdrop, not a script** — a headline and one idea each, about 55 words.
-The [speaker notes](slides/SPEAKER-NOTES.md) are short cues rather than paragraphs: four to
-six lines per slide covering the analogy to use, the question to ask the room, and the
-objection to pre-empt. Glance at them, don't read them. Every idea is carried by a worked
-recruitment, business development or operations example.
+The [speaker notes](slides/SPEAKER-NOTES.md) are short cues rather than paragraphs: the
+analogy to use, the question to ask the room, and the objection to pre-empt. Glance at them,
+don't read them.
+
+**Every slide ends with a bridge** — the sentence that carries the room into the next one —
+so the talk lands as a single argument rather than fifteen separate points. Every idea is
+carried by a worked recruitment, business development or operations example, and jargon
+(tender, RFP, GeBIZ, AI Verify) is glossed at first use.
 
 Open [`slides/index.html`](slides/index.html) in any browser — no installation, no
 dependencies, works offline.

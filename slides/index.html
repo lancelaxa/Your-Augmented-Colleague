@@ -162,6 +162,10 @@
     max-width:92ch;list-style:none}
   .notes li{font-size:.95rem;line-height:1.5;color:var(--fg-dim);position:relative}
   .notes li::before{content:"›";position:absolute;left:-1.1rem;color:var(--accent-fg)}
+  .notes li.br{color:var(--accent-fg);border-top:1px solid var(--line);
+    margin-top:.3rem;padding-top:.5rem;font-weight:600}
+  .notes li.br::before{content:"→"}
+  .notes li.br b{color:var(--accent-fg)}
   .notes b{color:var(--fg)}
   .notes i{color:var(--fg);font-style:italic}
 
@@ -211,6 +215,8 @@
     <li><b>Then promise the answer, so the question doesn't just hang:</b> "Hold that thought — I'll tell you exactly what to do about it in two slides."</li>
     <li><b>Reassure:</b> nobody writes code today. All of it is usable Monday.</li>
     <li>25 minutes, questions at the end, everything written up — link on the last slide.</li>
+  
+    <li class="br"><b>Bridge:</b> "Before I answer that — here's why it matters to the company, not just to you."</li>
   </ul></div>
 </section>
 
@@ -233,6 +239,8 @@
     <li><b>Take the pressure off:</b> "You're already good at asking. Tuesday's great prompt is just buried by Thursday, your colleague redoes it next week, and we can't show a client what the AI was told."</li>
     <li><b>Kill the tool question early:</b> "Competitors have the same tools. Nobody's winning because of the tool."</li>
     <li><i>Sources: Microsoft 2026, 20,000 people · study of 6,000 executives.</i></li>
+  
+    <li class="br"><b>Bridge:</b> "So what do we actually do about it? I promised you an answer — here it is."</li>
   </ul></div>
 </section>
 
@@ -258,8 +266,11 @@
     <li><b>Answer the opening question head-on:</b> "Hands went down because nobody saved it. So yes — the first move is to share them. It costs nothing and you could start this afternoon."</li>
     <li><b>Why a chat group doesn't count:</b> it dies in the scroll, there's no version, and nobody knows if it's still the current one.</li>
     <li><b>The catch, and it's the important bit:</b> "Your prompt says <i>score against the six criteria</i>. The next person doesn't have the six criteria. Half a shared prompt is useless — so the scoring sheet has to travel with it."</li>
-    <li><b>Where:</b> one file everyone can open and edit, with a history of who changed what. Not an inbox, not a personal drive. <i>That's what PROMPTS.md in the repo is.</i></li>
+    <li><b>Where:</b> one file everyone can open and edit, that keeps a history of who changed what and when. Not an inbox, not a personal drive.</li>
+    <li><i>If you mention the repository, gloss it once: "a shared folder online that remembers every version. You don't need to understand how it works to use it — you click a file and read it."</i></li>
     <li><b>Point forward so it doesn't feel like the whole answer:</b> "That's level one of four. It's the cheapest, and most companies never do it."</li>
+  
+    <li class="br"><b>Bridge:</b> "Sharing prompts is the first of four levels. Here's the whole map, so you know where we're going."</li>
   </ul></div>
 </section>
 
@@ -283,10 +294,13 @@
   </div>
   <div class="notes"><h4>Talking points</h4><ul>
     <li><b>Point at the strip along the top</b> — it lights up to show which level we're on.</li>
+    <li><i>The strip uses one-word labels: prompt, context, loop, graph. Say the plain version each time — "context just means the material you give it" — so nobody is decoding vocabulary while you talk.</i></li>
     <li><b>New-colleague analogy</b> covers all four: L1 asking them to do something · L2 handing them the file and template first · L3 them doing it and checking before bringing it to you · L4 a proper process with sign-offs.</li>
     <li><b>They stack.</b> "A weak prompt inside an automated system is still weak — it just produces bad work faster, with nobody watching."</li>
     <li><b>Be honest:</b> "We're at level 1. Most companies are. Fine — if we start climbing."</li>
     <li><i>If asked: levels 3 and 4 need no coding. Level 3 starts with a checklist.</i></li>
+  
+    <li class="br"><b>Bridge:</b> "Let's start with level two, because it's the quickest win and it costs nothing."</li>
   </ul></div>
 </section>
 
@@ -313,6 +327,8 @@
     <li><b>Dwell on "not stated" — the best trick here.</b> Left alone, AI fills gaps with confident guesses. Telling it to flag gaps turns an invented detail into a question you can check.</li>
     <li><b>Opposite mistake:</b> don't dump in sixty pages. The three lines that matter get lost. Curate, don't hoard.</li>
     <li><b>Close the loop, don't just tease it:</b> "Where does that scoring sheet live right now? In someone's head. It belongs in the shared file next to the prompt — that's the point I made two slides ago."</li>
+  
+    <li class="br"><b>Bridge:</b> "Good material still means you're driving every single step. Next: how it starts driving itself."</li>
   </ul></div>
 </section>
 
@@ -343,6 +359,8 @@
     <li><b>The NRIC check is a legal requirement</b>, not a nice-to-have — and a computer beats a tired human at 6pm.</li>
     <li><b>The stop rule is the safety mechanism.</b> Without it a stuck AI tries forever, spending money.</li>
     <li><b>Ask the room:</b> "What arrives in a pile on your desk every morning?" <b>Write the answers on a whiteboard</b> — you come back to this list at the end, when you ask for volunteers. Don't collect them and drop them.</li>
+  
+    <li class="br"><b>Bridge:</b> "Look at part three — the check. That's the part everyone skips, and here's why it matters."</li>
   </ul></div>
 </section>
 
@@ -373,6 +391,8 @@
     <li><b>Why it happens</b> (not AI-bashing): it's built to produce plausible text. Plausible and correct usually overlap — when they don't, nothing warns you.</li>
     <li><b>Rung 2, explain it:</b> "Two consultants, identical brief, no discussion. If the brief is ambiguous they misread it the same way — and two wrong answers that agree feel like confirmation."</li>
     <li><b>Rung 3 is the freebie — tell them to steal it today.</b> "Ask 'is this good?' and you'll be told yes. Ask 'find three things wrong' and it goes looking. Same AI, opposite instruction." Use a <i>fresh</i> chat.</li>
+  
+    <li class="br"><b>Bridge:</b> "You might think one weak check isn't a big deal. Let me show you what happens when they stack up."</li>
   </ul></div>
 </section>
 
@@ -403,6 +423,8 @@
     <li><b>Head off "so AI isn't reliable enough" — wrong lesson.</b> Right lesson, say all three: fewer steps · check at each stage · a human at the important points.</li>
     <li><b>Flag where that last one lands:</b> "I'll show you exactly where to put the human three slides from now." <i>(The approve-before slide.)</i></li>
     <li><i>If pushed: it's 0.95 multiplied by itself ten times. Don't dwell. Sources for every figure are in the repo's evidence pack.</i></li>
+  
+    <li class="br"><b>Bridge:</b> "That's the maths. Here's the one habit that fixes the most common version of it, today."</li>
   </ul></div>
 </section>
 
@@ -429,6 +451,8 @@
     <li><b>Crucial:</b> carry the <i>lesson</i>, never the failed output. Paste the bad answer in and you've recreated the problem.</li>
     <li><b>Repeat the rule twice:</b> two tries, then fresh chat. Usable this afternoon.</li>
     <li><i>The seven-times figure is a 2026 Rutgers study — cited in the repo if anyone asks.</i></li>
+  
+    <li class="br"><b>Bridge:</b> "A fresh chat fixes confusion. But there's a second thing that goes wrong, and it's the bigger one."</li>
   </ul></div>
 </section>
 
@@ -457,6 +481,8 @@
     <li><b>Land it:</b> "Everything it did was reasonable based on what it knew. The problem was what it <i>didn't</i> know. Not a stupidity problem — a bookkeeping problem." Then point at the 60%.</li>
     <li><b>Make it familiar:</b> same failure as working from last month's rate card, or two people editing different copies of a tender.</li>
     <li><b>The fix:</b> one tracker per role or project. When something changes, it changes <i>there</i> — and that file is what you hand the AI, not your memory of a conversation.</li>
+  
+    <li class="br"><b>Bridge:</b> "One living file that travels with the job — that idea is the whole of the last level."</li>
   </ul></div>
 </section>
 
@@ -484,6 +510,8 @@
     <li><b>The case file is a folder travelling between desks</b> — reference number, closing date, compulsory requirements, draft answers, compliance sign-off, approved pricing. Lose a piece and someone downstream decides on incomplete information.</li>
     <li><b>Test the room:</b> "Who signs off a S$300,000 bid?" If you get three answers or a pause — <i>that's the finding.</i> Say so.</li>
     <li><b>Then give the action, don't leave it hanging:</b> "The fix isn't AI. It's writing the approval thresholds down, once, where everyone can see them. That's an afternoon's work and it makes every later step possible."</li>
+  
+    <li class="br"><b>Bridge:</b> "Once you've drawn the flowchart, the only question left is where the approvals go."</li>
   </ul></div>
 </section>
 
@@ -510,6 +538,8 @@
     <li><b>Applies to anything you can't take back:</b> submitting a tender, emailing a client, sending candidate details.</li>
     <li><b>Free benefit:</b> the system records every step and approval as it goes, so the audit trail writes itself — often a requirement for government work.</li>
     <li><b>Worked example if you have time:</b> Monday tender scanning — three hours on GeBIZ becomes twenty minutes of triage. It finds and summarises; <i>it never decides whether to bid</i>.</li>
+  
+    <li class="br"><b>Bridge:</b> "That's all four levels. So where do we actually start on Monday?"</li>
   </ul></div>
 </section>
 
@@ -543,6 +573,8 @@
     <li><b>Read out the Monday actions:</b> write one weekly process down · write what "done" means · share your best prompt · use your own checklist for two weeks, noting every failure · <i>then</i> consider automating — the checking before the writing.</li>
     <li><b>Go back to the whiteboard list</b> from the loops slide. Ask for a name against one of them: one process, one person, one month.</li>
     <li><b>If they ask what to build first:</b> not a writing assistant — a <b>personal-data checker</b> that spots an NRIC or phone number before anything is sent anywhere. Entirely factual, and it protects everything built after it.</li>
+  
+    <li class="br"><b>Bridge:</b> "One thing before any of this touches real candidate or client data."</li>
   </ul></div>
 </section>
 
@@ -566,9 +598,11 @@
     <li><b>Unambiguous on NRIC:</b> there is never a good reason for one to be in a prompt. Screening, summarising, matching, ranking — none need an identity number. If it's there, something went wrong upstream.</li>
     <li><b>The regulator test</b> settles most edge cases faster than reading a policy.</li>
     <li><b>Don't leave "strip personal details" as an instruction with no method.</b> Point them at the redaction checklist in COMPLIANCE.md — what to remove, what to keep, and how to check. "Don't improvise this one."</li>
-    <li><b>Make reporting safe — say it out loud:</b> "Pasted something you shouldn't have? Tell your manager and the DPO the same day. Reporting a mistake is never a disciplinary matter. Hiding one is."</li>
+    <li><b>Make reporting safe — say it out loud:</b> "Pasted something you shouldn't have? Tell your manager and the Data Protection Officer the same day. Reporting a mistake is never a disciplinary matter. Hiding one is." <i>Use the full title, not "DPO".</i></li>
     <li><b>Commercial angle for BD:</b> AI Verify — Singapore's government-backed framework for testing and documenting how an organisation governs AI — is being built into public-sector procurement standards. Showing how we govern AI is becoming a reason we win or lose bids.</li>
     <li><i>If pressed on penalties: PDPA reaches S$1m or 10% of Singapore turnover. Route specifics to Legal — don't state them as settled.</i></li>
+  
+    <li class="br"><b>Bridge:</b> "Let me leave you with a single question to take away."</li>
   </ul></div>
 </section>
 

@@ -66,11 +66,15 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 ### Deck design
 
 Slides carry a headline and one idea each — about 55 words on screen — and act as a
-backdrop rather than a script. Speaker notes are written as cues, not paragraphs: four to
-six lines per slide covering the analogy to use, the question to put to the room, jargon to
-expand aloud, and the objection to pre-empt. Related ideas are combined onto single slides
-(the trust problem with the ways of checking; graphs with their three parts; the maturity
-ladder with the Monday actions) to keep the deck to 14.
+backdrop rather than a script. Speaker notes are written as cues, not paragraphs: the
+analogy to use, the question to put to the room, jargon to expand aloud, and the objection
+to pre-empt. Related ideas are combined onto single slides (the trust problem with the ways
+of checking; graphs with their three parts; the maturity ladder with the Monday actions).
+
+Every slide except the last ends with a **bridge** — the sentence that carries the room into
+the next slide — so the deck delivers one continuous argument rather than a sequence of
+separate points. Bridges are styled distinctly in the on-screen notes and in
+`SPEAKER-NOTES.md` so a presenter can find them at a glance.
 
 ### Notes on the deck's reading level
 

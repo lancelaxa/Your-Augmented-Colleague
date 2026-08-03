@@ -52,11 +52,11 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ### Added
 
-- `slides/index.html` — presentation deck, "Beyond the Prompt". 21 slides for a
-  non-technical audience that already uses AI at work. Self-contained single file:
-  keyboard navigation, on-screen speaker notes (`N`), print/PDF export, light and dark
-  themes, no external dependencies.
-- `slides/SPEAKER-NOTES.md` — talking points for all 21 slides, generated from the deck
+- `slides/index.html` — presentation deck, "Beyond the Prompt". 14 slides, about 25
+  minutes, for a non-technical audience that already uses AI at work. Self-contained
+  single file: keyboard navigation, on-screen speaker notes (`N`), print/PDF export,
+  light and dark themes, no external dependencies.
+- `slides/SPEAKER-NOTES.md` — presenter cues for all 14 slides, generated from the deck
   so the two cannot drift apart.
 
 ### Changed
@@ -65,11 +65,12 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ### Deck design
 
-Slides carry a headline and one idea each — about 55 words on screen on average — and act
-as a backdrop rather than a script. All explanatory detail sits in the speaker notes, at
-roughly three words of presenter script for every word on screen. The notes include the
-analogies to use, questions to put to the room, jargon to expand aloud, and the objections
-to pre-empt.
+Slides carry a headline and one idea each — about 55 words on screen — and act as a
+backdrop rather than a script. Speaker notes are written as cues, not paragraphs: four to
+six lines per slide covering the analogy to use, the question to put to the room, jargon to
+expand aloud, and the objection to pre-empt. Related ideas are combined onto single slides
+(the trust problem with the ways of checking; graphs with their three parts; the maturity
+ladder with the Monday actions) to keep the deck to 14.
 
 ### Notes on the deck's reading level
 

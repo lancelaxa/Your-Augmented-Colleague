@@ -1,0 +1,88 @@
+name: "📋 SOP / Documentation Change"
+description: Propose a change to a procedure, playbook, template or learning content
+title: "[CHANGE] "
+labels: ["documentation", "change-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Proposing a change to how we work. This follows
+        [SOP-05](../../WORKFLOW.md#sop-05--changing-an-sop).
+
+        **Raise the issue first, then open a PR referencing it.** The discussion belongs
+        here; the diff belongs in the PR.
+
+  - type: input
+    id: file
+    attributes:
+      label: File affected
+      placeholder: e.g. playbooks/RECRUITMENT.md
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Type of change
+      options:
+        - "Added — new content"
+        - "Changed — modify existing"
+        - "Fixed — correction"
+        - "Removed — delete content"
+        - "Security — compliance or data protection"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong with the current version?
+      description: The problem, not the solution
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why
+      description: |
+        What triggered this? An incident, a near-miss, a repeated question, a regulatory
+        update, or something that went wrong?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: governance-impact
+    attributes:
+      label: Does this affect compliance, data protection or a client deliverable?
+      description: If yes, DPO or Compliance review is required before merge
+      options:
+        - "No"
+        - "Yes — compliance / data protection"
+        - "Yes — affects client deliverables"
+        - "Unsure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-teams
+    attributes:
+      label: Who needs to know?
+      description: Which teams are affected and must be notified after merge
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have checked this doesn't conflict with another document
+        - label: I will update [CHANGELOG.md](../../CHANGELOG.md) in the PR
+        - label: This contains no personal data or confidential information
+          required: true

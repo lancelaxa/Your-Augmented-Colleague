@@ -1,0 +1,120 @@
+name: "💼 BD Opportunity / Tender"
+description: Log a new commercial opportunity or tender for qualification
+title: "[BD] "
+labels: ["business-development", "opportunity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ Before you start
+
+        **No confidential pricing, bid strategy or client-confidential terms in this
+        public repository.** Use value bands, not exact figures.
+
+        See [BIZ-DEV.md](../../playbooks/BIZ-DEV.md) for the qualification process.
+
+  - type: checkboxes
+    id: confidentiality-ack
+    attributes:
+      label: Confidentiality acknowledgement
+      options:
+        - label: I confirm this contains no confidential pricing or client-confidential terms
+          required: true
+
+  - type: input
+    id: reference
+    attributes:
+      label: Tender / opportunity reference
+      placeholder: e.g. GeBIZ reference or internal BD-YYYY-NNN
+    validations:
+      required: true
+
+  - type: input
+    id: agency
+    attributes:
+      label: Issuing agency / client
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope summary
+      description: What is being procured, in two or three sentences
+    validations:
+      required: true
+
+  - type: dropdown
+    id: value-band
+    attributes:
+      label: Estimated value band
+      options:
+        - "< S$100k"
+        - "S$100k – 500k"
+        - "S$500k – 1m"
+        - "> S$1m"
+        - "Unknown"
+    validations:
+      required: true
+
+  - type: input
+    id: closing-date
+    attributes:
+      label: Closing date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: disqualifiers
+    attributes:
+      label: Mandatory eligibility check
+      description: |
+        **Check these first, before any effort is spent.** Failing a mandatory criterion
+        means the submission is not evaluated at all — all effort is wasted.
+      options:
+        - label: We meet every mandatory eligibility criterion
+        - label: Registration / track record requirements satisfied
+        - label: We can meet the security clearance requirement
+        - label: The timeline is physically achievable
+        - label: No conflict of interest identified
+
+  - type: textarea
+    id: mandatory-criteria
+    attributes:
+      label: Mandatory criteria
+      description: List the pass/fail gates from the tender document
+
+  - type: input
+    id: incumbent
+    attributes:
+      label: Incumbent (if known)
+
+  - type: dropdown
+    id: recommendation
+    attributes:
+      label: Initial recommendation
+      options:
+        - "Qualify — proceed to scorecard"
+        - "No-bid — fails mandatory criteria"
+        - "No-bid — poor fit"
+        - "Undecided"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reasoning
+    attributes:
+      label: Reasoning
+      description: |
+        **Record this either way.** No-bid decisions are as valuable as bids — over a year
+        they show exactly where the capability gaps are.
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+    validations:
+      required: true

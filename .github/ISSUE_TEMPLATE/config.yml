@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Start with the learning track
+    url: https://github.com/lancelaxa/Your-Augmented-Colleague/blob/main/learn/00-START-HERE.md
+    about: New here? Start with the four rungs — prompt, context, loop, graph.
+  - name: 🔒 Data protection rules
+    url: https://github.com/lancelaxa/Your-Augmented-Colleague/blob/main/compliance/COMPLIANCE.md
+    about: Read before using AI on any real work. What you may and may not put into a tool.
+  - name: 🗺️ Can't find a document?
+    url: https://github.com/lancelaxa/Your-Augmented-Colleague/blob/main/INDEX.md
+    about: The master file map — find anything by question or by role.
+  - name: ⚠️ Report a data incident
+    url: https://github.com/lancelaxa/Your-Augmented-Colleague/blob/main/compliance/data-governance.md#8-incident-response
+    about: Do NOT open a public issue for a data incident. Contact the DPO directly, within 24 hours.

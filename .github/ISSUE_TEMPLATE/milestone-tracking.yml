@@ -1,0 +1,117 @@
+name: "🎯 Project Milestone / Deliverable"
+description: Track a project milestone or deliverable
+title: "[M?] "
+labels: ["delivery", "milestone"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ Demonstration repository
+
+        This public repository holds **fictional demonstration data only**. Real project
+        tracking belongs in a **private** repository with access controls.
+
+        No client-confidential detail, no personal data, no real project specifics.
+
+        See [IMDA-DELIVERABLES.md](../../projects-imda/IMDA-DELIVERABLES.md).
+
+  - type: checkboxes
+    id: data-ack
+    attributes:
+      label: Data acknowledgement
+      options:
+        - label: This contains no personal data and no client-confidential detail
+          required: true
+
+  - type: input
+    id: milestone-id
+    attributes:
+      label: Milestone ID
+      placeholder: e.g. M3
+    validations:
+      required: true
+
+  - type: input
+    id: project-id
+    attributes:
+      label: Project ID
+      placeholder: e.g. PROJ-DEMO-01
+    validations:
+      required: true
+
+  - type: input
+    id: milestone-name
+    attributes:
+      label: Milestone name
+    validations:
+      required: true
+
+  - type: input
+    id: due-date
+    attributes:
+      label: Due date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+      description: What is being produced
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: |
+        **Each criterion must be checkable by a third party with no project context.**
+
+        ❌ "Documentation is complete"
+        ✅ "Every section of the agreed template is populated; no [TBC] remains"
+
+        Ambiguous criteria resolve in favour of whoever is more assertive at the review
+        meeting. Write them so that cannot happen.
+      placeholder: |
+        | # | Criterion | Measurable as | Evidence |
+        |---|-----------|---------------|----------|
+        | 1 |           |               |          |
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of done
+      description: The checklist that must be complete before this closes
+      value: |
+        - [ ] All deliverables produced
+        - [ ] Every acceptance criterion evidenced
+        - [ ] PII scan clean
+        - [ ] Internal review complete
+        - [ ] Approval recorded per the authority matrix
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - "⚪ Not started"
+        - "🟡 In progress"
+        - "🔵 Submitted, awaiting acceptance"
+        - "🟢 Accepted"
+        - "🔴 At risk"
+        - "⚫ Blocked"
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+    validations:
+      required: true

@@ -1,0 +1,113 @@
+name: "👤 Candidate / Requisition Intake"
+description: Raise a new headcount request or requisition
+title: "[REQ] "
+labels: ["recruitment", "intake"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ Before you start
+
+        **Never enter personal data in this form.** No names, NRIC/FIN numbers, phone
+        numbers, email addresses or dates of birth.
+
+        Reference candidates by **ATS ID only** (`CAND-YYYY-NNNN`).
+
+        This is a **public teaching repository** — see
+        [COMPLIANCE.md](../../compliance/COMPLIANCE.md).
+
+  - type: checkboxes
+    id: pii-ack
+    attributes:
+      label: Data protection acknowledgement
+      options:
+        - label: I confirm this form contains no personal data of any kind
+          required: true
+
+  - type: input
+    id: role-title
+    attributes:
+      label: Role title
+      placeholder: e.g. Senior Infrastructure Consultant
+    validations:
+      required: true
+
+  - type: dropdown
+    id: contract-type
+    attributes:
+      label: Contract type
+      description: Determines the approval routing
+      options:
+        - Permanent
+        - Contract
+        - RPO
+        - Outsourced / deployed
+    validations:
+      required: true
+
+  - type: input
+    id: headcount
+    attributes:
+      label: Headcount
+      placeholder: e.g. 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: must-haves
+    attributes:
+      label: Must-have requirements (maximum 5)
+      description: |
+        **Maximum 5.** If everything is a must-have, nothing is — and the requisition
+        will have no candidates. Rank ruthlessly.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: nice-to-haves
+    attributes:
+      label: Nice-to-have requirements
+      description: Explicitly separated from must-haves
+
+  - type: dropdown
+    id: clearance
+    attributes:
+      label: Security clearance required?
+      description: Critical for public-sector roles — affects timeline significantly
+      options:
+        - "No"
+        - "Yes"
+        - "To be confirmed"
+    validations:
+      required: true
+
+  - type: input
+    id: budget
+    attributes:
+      label: Budget range
+      description: Band only. Do not enter exact client-confidential figures.
+      placeholder: e.g. Band B3
+
+  - type: input
+    id: target-start
+    attributes:
+      label: Target start date
+      placeholder: YYYY-MM-DD
+
+  - type: textarea
+    id: success-profile
+    attributes:
+      label: Success profile
+      description: What does "great at this job in 12 months" look like?
+
+  - type: input
+    id: approver
+    attributes:
+      label: Approver
+      description: Named person who authorises this headcount
+    validations:
+      required: true

@@ -59,9 +59,14 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 **[▶ Beyond the Prompt](slides/index.html)** · 21 slides, ~30 minutes ·
 **[Speaker notes](slides/SPEAKER-NOTES.md)**
 
-Written in plain language for people who already use AI at work but have no technical
-background. Assumes you can write a decent prompt and starts from there. Every idea is
-carried by a worked recruitment, business development or operations example.
+Plain language, for people who already use AI at work but have no technical background.
+
+**The slides are deliberately sparse** — a headline and one idea each, averaging about 55
+words. They are a backdrop, not a script. The detail lives in the
+[speaker notes](slides/SPEAKER-NOTES.md): roughly 3,900 words of presenter script,
+including the analogies to use, the questions to ask the room, and the objections to
+pre-empt. Every idea is carried by a worked recruitment, business development or
+operations example.
 
 Open [`slides/index.html`](slides/index.html) in any browser — no installation, no
 dependencies, works offline.

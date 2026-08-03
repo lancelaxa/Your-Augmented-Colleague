@@ -63,6 +63,14 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 - `README.md`, `INDEX.md` — added deck and speaker-notes links.
 
+### Deck design
+
+Slides carry a headline and one idea each — about 55 words on screen on average — and act
+as a backdrop rather than a script. All explanatory detail sits in the speaker notes, at
+roughly three words of presenter script for every word on screen. The notes include the
+analogies to use, questions to put to the room, jargon to expand aloud, and the objections
+to pre-empt.
+
 ### Notes on the deck's reading level
 
 Written for people with no technical background who already use AI day to day. Every

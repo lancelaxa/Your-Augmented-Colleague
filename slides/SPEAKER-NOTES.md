@@ -1,6 +1,6 @@
 # Speaker Notes
 
-> Presenter cues for **[Beyond the Prompt](index.html)** — 14 slides, about 25 minutes.
+> Presenter cues for **[Beyond the Prompt](index.html)** — 15 slides, about 25 minutes.
 
 The slides are a backdrop, not a script. These are cues, not paragraphs — glance, don't read.
 
@@ -17,8 +17,9 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 - **Open with hands up.** "Who's used AI for work this month?" Most hands. "Keep them up if you saved that prompt where a colleague could find it." Almost all drop.
 - **Point at the room:** "That gap is the whole session."
+- **Then promise the answer, so the question doesn't just hang:** "Hold that thought — I'll tell you exactly what to do about it in two slides."
 - **Reassure:** nobody writes code today. All of it is usable Monday.
-- 30 minutes, questions at the end, everything written up — link on the last slide.
+- 25 minutes, questions at the end, everything written up — link on the last slide.
 
 ---
 
@@ -36,7 +37,22 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 3. Four levels.
+## 3. Yes — share them.
+
+`So what do we do about it`
+
+- **Answer the opening question head-on:** "Hands went down because nobody saved it. So yes — the first move is to share them. It costs nothing and you could start this afternoon."
+- **Why a chat group doesn't count:** it dies in the scroll, there's no version, and nobody knows if it's still the current one.
+- **The catch, and it's the important bit:** "Your prompt says *score against the six criteria*. The next person doesn't have the six criteria. Half a shared prompt is useless — so the scoring sheet has to travel with it."
+- **Where:** one file everyone can open and edit, with a history of who changed what. Not an inbox, not a personal drive. *That's what PROMPTS.md in the repo is.*
+- **Point forward so it doesn't feel like the whole answer:** "That's level one of four. It's the cheapest, and most companies never do it."
+
+> **On screen:** One shared file, not forty inboxes. That's level 1 — and it's
+ free.
+
+---
+
+## 4. Four levels.
 
 `The map`
 
@@ -50,7 +66,7 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 4. Same AI. Same candidate.
+## 5. Same AI. Same candidate.
 
 `Level 02 · The right material`
 
@@ -58,14 +74,14 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **Left side produces** generic praise that reads the same for every candidate, so you can't compare them. **Right side** gives you scores you can line up side by side.
 - **Dwell on "not stated" — the best trick here.** Left alone, AI fills gaps with confident guesses. Telling it to flag gaps turns an invented detail into a question you can check.
 - **Opposite mistake:** don't dump in sixty pages. The three lines that matter get lost. Curate, don't hoard.
-- **Bridge:** "Where does that scoring sheet live right now? In someone's head."
+- **Close the loop, don't just tease it:** "Where does that scoring sheet live right now? In someone's head. It belongs in the shared file next to the prompt — that's the point I made two slides ago."
 
 > **On screen:** Give it the standard, the material and one
  example — before you ask.
 
 ---
 
-## 5. Four parts.
+## 6. Four parts.
 
 `Level 03 · Loops`
 
@@ -74,18 +90,19 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **CV column is the one they'll remember.** Stress: the consultant still decides who advances. "You arrive to a scored shortlist, not forty raw CVs."
 - **The NRIC check is a legal requirement**, not a nice-to-have — and a computer beats a tired human at 6pm.
 - **The stop rule is the safety mechanism.** Without it a stuck AI tries forever, spending money.
-- **Ask the room:** "What arrives in a pile on your desk every morning?" That's your real automation list.
+- **Ask the room:** "What arrives in a pile on your desk every morning?" **Write the answers on a whiteboard** — you come back to this list at the end, when you ask for volunteers. Don't collect them and drop them.
 
 > **On screen:** No check, no loop — just an intern nobody is supervising.
 
 ---
 
-## 6. AI aims for "looks finished".
+## 7. AI aims for "looks finished".
 
 `Level 03 · The catch`
 
 - **Set up the problem:** "Ask for a client report and you get something shaped exactly like one — right length, right headings, confident tone. Whether the numbers add up is a completely different question."
 - **Horror story:** "A tender response listing a certification we don't hold. Reads beautifully. It's also a misrepresentation to a government agency."
+- *First time you say "tender" — gloss it, don't assume. A **tender** is when a client or agency publishes what they need and invites proposals; an **RFP** (Request for Proposal) is the same thing; in Singapore most government ones come through **GeBIZ**, the government procurement portal. Recruiters in the room often won't know this.*
 - **Why it happens** (not AI-bashing): it's built to produce plausible text. Plausible and correct usually overlap — when they don't, nothing warns you.
 - **Rung 2, explain it:** "Two consultants, identical brief, no discussion. If the brief is ambiguous they misread it the same way — and two wrong answers that agree feel like confirmation."
 - **Rung 3 is the freebie — tell them to steal it today.** "Ask 'is this good?' and you'll be told yes. Ask 'find three things wrong' and it goes looking. Same AI, opposite instruction." Use a *fresh* chat.
@@ -94,7 +111,7 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 7. Small mistakes multiply.
+## 8. Small mistakes multiply.
 
 `Level 03 · Why checking matters`
 
@@ -103,13 +120,14 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **Why:** steps stack. Step 2 works from step 1's answer.
 - **Read the highlighted row slowly.** "Ninety-five percent, every step. Ten steps. Sixty percent." Pause. "A coin flip on a job you thought was an A grade."
 - **Head off "so AI isn't reliable enough" — wrong lesson.** Right lesson, say all three: fewer steps · check at each stage · a human at the important points.
-- *If pushed: it's 0.95 multiplied by itself ten times. Don't dwell.*
+- **Flag where that last one lands:** "I'll show you exactly where to put the human three slides from now." *(The approve-before slide.)*
+- *If pushed: it's 0.95 multiplied by itself ten times. Don't dwell. Sources for every figure are in the repo's evidence pack.*
 
 > **On screen:** 95% right every step is still only 60% right over ten steps.
 
 ---
 
-## 8. Going in circles? Start a new chat.
+## 9. Going in circles? Start a new chat.
 
 `Level 03 · Best habit to take away`
 
@@ -117,12 +135,13 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **Give the exact wording:** new chat, paste the original request, then add — *"An earlier attempt confused quarterly with monthly figures, be careful with that."* One sentence.
 - **Crucial:** carry the *lesson*, never the failed output. Paste the bad answer in and you've recreated the problem.
 - **Repeat the rule twice:** two tries, then fresh chat. Usable this afternoon.
+- *The seven-times figure is a 2026 Rutgers study — cited in the repo if anyone asks.*
 
 > **On screen:** Two tries in one chat. On the third, start fresh.
 
 ---
 
-## 9. It doesn't get confused. It never found out.
+## 10. It doesn't get confused. It never found out.
 
 `Level 03 · Why these projects fail`
 
@@ -135,7 +154,7 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 10. A loop is one person. A graph is the flowchart.
+## 11. A loop is one person. A graph is the flowchart.
 
 `Level 04 · Graphs, simply`
 
@@ -145,12 +164,13 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **Example — BD:** enquiry in → qualify → bid/no-bid → write → compliance → price approved → submit. Seven boxes, six arrows.
 - **The case file is a folder travelling between desks** — reference number, closing date, compulsory requirements, draft answers, compliance sign-off, approved pricing. Lose a piece and someone downstream decides on incomplete information.
 - **Test the room:** "Who signs off a S$300,000 bid?" If you get three answers or a pause — *that's the finding.* Say so.
+- **Then give the action, don't leave it hanging:** "The fix isn't AI. It's writing the approval thresholds down, once, where everyone can see them. That's an afternoon's work and it makes every later step possible."
 
 > **On screen:** Nothing new to learn. It's your approval process, drawn properly.
 
 ---
 
-## 11. Approve before. Not find out after.
+## 12. Approve before. Not find out after.
 
 `Level 04 · The costly mistake`
 
@@ -165,40 +185,44 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 12. We're on level 0.
+## 13. Pick one process. Move it one stage.
 
 `Where we actually are`
 
-- **Level 0 isn't a failing** — it's where nearly every company is. But staying there is a choice.
-- **Push hard on 1 and 2 being free.** No purchase, no IT project. It's writing things down. If leadership's in the room, this is the low-risk ask: give people time.
-- **Why skipping to 5 fails:** "Automate a process you've never written down and you're guessing what to check. You'll build something that passes everything and catches nothing."
+- *Say this so nobody conflates the two scales: "This isn't the four levels from earlier. That was how AI gets used. This is how far along one of our own processes is."*
+- **Chatting isn't a failing** — it's where nearly every company is. But staying there is a choice.
+- **Push hard on the next two being free.** No purchase, no IT project. It's writing things down. If leadership's in the room, this is the low-risk ask: give people the time.
+- **Why skipping to the end fails:** "Automate a process you've never written down and you're guessing what to check. You'll build something that passes everything and catches nothing."
 - **Read out the Monday actions:** write one weekly process down · write what "done" means · share your best prompt · use your own checklist for two weeks, noting every failure · *then* consider automating — the checking before the writing.
-- **Ask for a named volunteer per team.** One process, one person, one month.
+- **Go back to the whiteboard list** from the loops slide. Ask for a name against one of them: one process, one person, one month.
+- **If they ask what to build first:** not a writing assistant — a **personal-data checker** that spots an NRIC or phone number before anything is sent anywhere. Entirely factual, and it protects everything built after it.
 
-> **On screen:** Levels 1 and 2 need no budget, no software, no permission.
+> **On screen:** The next two stages need no budget, no software, no permission.
 
 ---
 
-## 13. Never in any AI tool.
+## 14. Never in any AI tool.
 
 `The rules · non-negotiable`
 
 - **Don't rush it because it's near the end.** Biggest real-world consequence in the deck.
 - **Unambiguous on NRIC:** there is never a good reason for one to be in a prompt. Screening, summarising, matching, ranking — none need an identity number. If it's there, something went wrong upstream.
 - **The regulator test** settles most edge cases faster than reading a policy.
+- **Don't leave "strip personal details" as an instruction with no method.** Point them at the redaction checklist in COMPLIANCE.md — what to remove, what to keep, and how to check. "Don't improvise this one."
 - **Make reporting safe — say it out loud:** "Pasted something you shouldn't have? Tell your manager and the DPO the same day. Reporting a mistake is never a disciplinary matter. Hiding one is."
-- **Commercial angle for BD:** AI Verify is being built into government procurement standards. Showing how we govern AI is becoming a reason we win or lose bids.
+- **Commercial angle for BD:** AI Verify — Singapore's government-backed framework for testing and documenting how an organisation governs AI — is being built into public-sector procurement standards. Showing how we govern AI is becoming a reason we win or lose bids.
 - *If pressed on penalties: PDPA reaches S$1m or 10% of Singapore turnover. Route specifics to Legal — don't state them as settled.*
 
 ---
 
-## 14. Not "can AI do this?"  "Would I know if it got  it wrong?"
+## 15. Not "can AI do this?"  "Would I know if it got  it wrong?"
 
 `If you remember one thing`
 
 - **Add the second half aloud:** "If you can't write down what 'done properly' looks like, you're not ready to automate it — you'd just be creating work nobody is checking."
 - **Reframe the session:** "Every slide today was one question in different clothing. Can you tell whether it's right? If yes, lean on it. If no, keep a person in the loop."
-- **Point at the repo:** prompt library takes two minutes to add to; read the compliance rules before your next real prompt.
+- **Bookend the opener.** "I started by asking whether you'd saved your best prompt where a colleague could find it. Almost nobody had. That's the one thing I'd like changed by next week."
+- **Point at the repo:** the prompt library takes two minutes to add to; read the compliance rules before your next real prompt.
 - **Leave time for questions.** "I don't know" is a fine answer — write it down, it's a living document.
 
 ---

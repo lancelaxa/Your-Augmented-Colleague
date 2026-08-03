@@ -56,7 +56,7 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 
 ## 🎤 The slide deck
 
-**[▶ Beyond the Prompt](slides/index.html)** · 14 slides, ~25 minutes ·
+**[▶ Beyond the Prompt](slides/index.html)** · 15 slides, ~25 minutes ·
 **[Speaker notes](slides/SPEAKER-NOTES.md)**
 
 Plain language, for people who already use AI at work but have no technical background.

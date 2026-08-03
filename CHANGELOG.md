@@ -52,11 +52,11 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ### Added
 
-- `slides/index.html` — presentation deck, "Beyond the Prompt". 14 slides, about 25
+- `slides/index.html` — presentation deck, "Beyond the Prompt". 15 slides, about 25
   minutes, for a non-technical audience that already uses AI at work. Self-contained
   single file: keyboard navigation, on-screen speaker notes (`N`), print/PDF export,
   light and dark themes, no external dependencies.
-- `slides/SPEAKER-NOTES.md` — presenter cues for all 14 slides, generated from the deck
+- `slides/SPEAKER-NOTES.md` — presenter cues for all 15 slides, generated from the deck
   so the two cannot drift apart.
 
 ### Changed

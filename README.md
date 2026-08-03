@@ -56,16 +56,27 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 
 ## 🎤 The slide deck
 
-**[▶ Beyond the Prompt — Loop & Graph Engineering](slides/index.html)** · 20 slides, ~30 minutes
+**[▶ Beyond the Prompt](slides/index.html)** · 21 slides, ~30 minutes ·
+**[Speaker notes](slides/SPEAKER-NOTES.md)**
 
-Built for an audience that already understands prompt engineering, and picks up from there.
-Open [`slides/index.html`](slides/index.html) in any browser — arrow keys to navigate,
-`P` to print or export to PDF. No installation, no dependencies, works offline.
+Written in plain language for people who already use AI at work but have no technical
+background. Assumes you can write a decent prompt and starts from there. Every idea is
+carried by a worked recruitment, business development or operations example.
 
-Covers: the four rungs · context rot · loop anatomy and the verifier problem · the
-compounding-reliability mathematics · graph primitives and approval gates · the maturity
-ladder · the compliance floor. Every figure in it is cited in the
-[Evidence Pack](learn/06-EVIDENCE-PACK.md).
+Open [`slides/index.html`](slides/index.html) in any browser — no installation, no
+dependencies, works offline.
+
+| Key | Does |
+|-----|------|
+| `←` `→` or space | Move between slides |
+| `N` | Show or hide speaker notes on screen |
+| `P` | Print, or export to PDF (notes included under each slide) |
+
+Covers: why saved prompts matter more than clever ones · giving AI the right material ·
+loops and why every loop needs a check · the five ways of checking work · how small error
+rates multiply · when to start a fresh chat · why AI projects fail · graphs explained
+simply · approving before rather than after · the compliance floor. Every figure is cited
+in the [Evidence Pack](learn/06-EVIDENCE-PACK.md).
 
 ---
 

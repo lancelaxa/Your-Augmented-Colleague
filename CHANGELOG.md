@@ -52,14 +52,25 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ### Added
 
-- `slides/index.html` — presentation deck, "Beyond the Prompt: Loop & Graph Engineering".
-  20 slides pitched at an audience already familiar with prompt engineering. Self-contained
-  single file: keyboard navigation, print/PDF export, light and dark themes, no external
-  dependencies. Linked from README and INDEX.
+- `slides/index.html` — presentation deck, "Beyond the Prompt". 21 slides for a
+  non-technical audience that already uses AI at work. Self-contained single file:
+  keyboard navigation, on-screen speaker notes (`N`), print/PDF export, light and dark
+  themes, no external dependencies.
+- `slides/SPEAKER-NOTES.md` — talking points for all 21 slides, generated from the deck
+  so the two cannot drift apart.
 
 ### Changed
 
-- `README.md`, `INDEX.md` — added deck links.
+- `README.md`, `INDEX.md` — added deck and speaker-notes links.
+
+### Notes on the deck's reading level
+
+Written for people with no technical background who already use AI day to day. Every
+abstract idea is carried by a worked recruitment, business development or operations
+example rather than stated in the abstract; jargon is expanded on first use ("tender",
+"RFP", "GeBIZ"); and each content slide states an explicit takeaway. Graph engineering is
+introduced through an existing approval process rather than through framework
+terminology.
 
 ---
 

@@ -3,19 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Beyond the Prompt — Loop &amp; Graph Engineering | CGP</title>
-<meta name="description" content="Loop and graph engineering for non-technical operations teams. A 30-minute deck for CGP.">
+<title>Beyond the Prompt — Working with AI at CGP</title>
+<meta name="description" content="Working with AI at CGP: prompts, context, loops and graphs — for non-technical teams.">
 </head>
 <body>
 <style>
   :root{
-    --ink-900:#0A1418; --ink-800:#0F1D23; --ink-700:#16292F; --ink-600:#1E3A42;
+    --ink-900:#0A1418; --ink-800:#0F1D23;
     --signal:#D98A2B; --signal-soft:rgba(217,138,43,.14); --signal-line:rgba(217,138,43,.38);
     --pass:#4E9E7E; --fail:#C0563E;
     --bg:var(--ink-900); --panel:var(--ink-800); --line:rgba(155,183,190,.16);
     --fg:#EAF0F1; --fg-dim:#9DB2B8; --fg-faint:#63797F;
-    --accent-fg:var(--signal);
-    --rail-off:rgba(155,183,190,.18);
+    --accent-fg:var(--signal); --rail-off:rgba(155,183,190,.18);
     --font-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
     --s1:clamp(.72rem,.62rem + .3vw,.82rem);
@@ -47,31 +46,25 @@
   }
 
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--fg);
-    font-family:var(--font-sans); font-size:var(--s2); line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-sans);
+    font-size:var(--s2);line-height:1.55;-webkit-font-smoothing:antialiased}
 
-  /* ---- rail ---- */
-  .rail{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:stretch;
-    gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+  .rail{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;gap:1px;
+    background:var(--line);border-bottom:1px solid var(--line)}
   .rail b{flex:1;background:var(--bg);padding:.5rem .75rem;font-family:var(--font-mono);
     font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
     color:var(--rail-off);display:flex;align-items:center;gap:.5rem;transition:color .3s,background .3s}
   .rail b i{font-style:normal;opacity:.65}
   .rail b.on{color:var(--accent-fg);background:var(--signal-soft)}
   .rail b.on i{opacity:1}
-
   .prog{position:fixed;top:0;left:0;height:2px;background:var(--accent-fg);z-index:41;
     transition:width .35s cubic-bezier(.4,0,.2,1)}
 
-  /* ---- slide shell ---- */
-  .deck{position:relative}
   .slide{display:none;min-height:100vh;padding:5.5rem clamp(1.25rem,5vw,5.5rem) 4.5rem;
     flex-direction:column;justify-content:center;gap:1.5rem}
   .slide.on{display:flex}
-  .wrap{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:1.35rem}
+  body.notes-on .slide{padding-bottom:min(42vh,26rem)}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:1.3rem}
   @media (prefers-reduced-motion:no-preference){
     .slide.on .wrap>*{animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards}
     .slide.on .wrap>*:nth-child(2){animation-delay:.05s}
@@ -81,32 +74,33 @@
     @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   }
 
-  /* ---- type ---- */
   .eyebrow{font-family:var(--font-mono);font-size:var(--s1);letter-spacing:.18em;
     text-transform:uppercase;color:var(--accent-fg);display:flex;align-items:center;gap:.7rem}
   .eyebrow::after{content:"";flex:1;height:1px;background:var(--signal-line);max-width:5rem}
-  h1{font-size:var(--s5);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0;
-    text-wrap:balance}
-  h2{font-size:var(--s4);line-height:1.1;letter-spacing:-.028em;font-weight:750;margin:0;
-    text-wrap:balance}
+  h1{font-size:var(--s5);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0;text-wrap:balance}
+  h2{font-size:var(--s4);line-height:1.1;letter-spacing:-.028em;font-weight:750;margin:0;text-wrap:balance}
   h3{font-size:var(--s3);line-height:1.25;letter-spacing:-.015em;font-weight:700;margin:0}
   p{margin:0;max-width:66ch;color:var(--fg-dim)}
-  p.lead{font-size:var(--s3);color:var(--fg);max-width:56ch;line-height:1.4}
+  p.lead{font-size:var(--s3);color:var(--fg);max-width:58ch;line-height:1.4}
   strong{color:var(--fg);font-weight:680}
   em{font-style:normal;color:var(--accent-fg)}
   .mono{font-family:var(--font-mono)}
 
-  /* ---- components ---- */
+  .takeaway{display:flex;gap:1rem;align-items:baseline;border:1px solid var(--signal-line);
+    background:var(--signal-soft);padding:.9rem 1.15rem}
+  .takeaway .k{font-family:var(--font-mono);font-size:.63rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent-fg);white-space:nowrap}
+  .takeaway .t{color:var(--fg);font-weight:640;font-size:var(--s2);line-height:1.45}
+
   .quote{border-left:2px solid var(--accent-fg);padding:.3rem 0 .3rem 1.4rem;
     font-size:var(--s3);line-height:1.4;color:var(--fg);max-width:60ch;text-wrap:balance}
   .quote cite{display:block;margin-top:.7rem;font-family:var(--font-mono);font-size:var(--s1);
     font-style:normal;letter-spacing:.08em;color:var(--fg-faint)}
 
   .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
   .g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
-  .g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-  .cell{background:var(--bg);padding:1.15rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
+  .cell{background:var(--bg);padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.45rem}
   .cell .k{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;
     text-transform:uppercase;color:var(--fg-faint)}
   .cell .v{font-size:var(--s2);color:var(--fg-dim)}
@@ -120,74 +114,85 @@
   .statrow .lbl{margin-top:.85rem;font-size:var(--s2);color:var(--fg-dim);max-width:34ch}
 
   table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:var(--s2)}
-  th,td{padding:.6rem .8rem;text-align:right;border-bottom:1px solid var(--line)}
+  th,td{padding:.62rem .8rem;text-align:right;border-bottom:1px solid var(--line)}
   th:first-child,td:first-child{text-align:left}
   thead th{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;
     text-transform:uppercase;color:var(--fg-faint);font-weight:500;
     border-bottom:1px solid var(--signal-line)}
   tbody td{font-family:var(--font-mono);color:var(--fg-dim)}
-  tbody tr.key td{color:var(--fg);font-weight:600}
+  tbody tr.key td{color:var(--fg);font-weight:700}
   tbody tr.key{background:var(--signal-soft)}
   td.crit{color:var(--fail);font-weight:600}
   td.good{color:var(--pass)}
   .scroll{overflow-x:auto;border:1px solid var(--line);padding:.3rem .9rem .1rem}
 
   .steps{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .steps>div{flex:1 1 165px;background:var(--bg);padding:1.05rem 1.1rem;display:flex;
-    flex-direction:column;gap:.45rem}
+  .steps>div{flex:1 1 165px;background:var(--bg);padding:1rem 1.1rem;display:flex;
+    flex-direction:column;gap:.4rem}
   .steps .n{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;color:var(--accent-fg)}
   .steps .t{font-weight:700;font-size:var(--s2)}
   .steps .d{font-size:var(--s1);color:var(--fg-dim);line-height:1.45}
 
-  .ladder{display:flex;flex-direction:column;gap:1px;background:var(--line);
-    border:1px solid var(--line)}
+  .ladder{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
   .ladder>div{background:var(--bg);padding:.7rem 1.1rem;display:flex;align-items:baseline;
     gap:1rem;flex-wrap:wrap}
   .ladder .st{font-family:var(--font-mono);font-size:var(--s1);color:var(--accent-fg);
     letter-spacing:.1em;min-width:3.4rem}
-  .ladder .nm{font-weight:700;min-width:11rem}
-  .ladder .ds{color:var(--fg-dim);font-size:var(--s1);flex:1;min-width:200px}
+  .ladder .nm{font-weight:700;min-width:10rem}
+  .ladder .ds{color:var(--fg-dim);font-size:var(--s1);flex:1;min-width:210px}
   .ladder>div.now{background:var(--signal-soft)}
   .ladder>div.free{border-left:2px solid var(--pass)}
 
-  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem}
-  .card{border:1px solid var(--line);padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.6rem}
+  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+  .card{border:1px solid var(--line);padding:1.15rem 1.25rem;display:flex;flex-direction:column;gap:.55rem}
   .card.yes{border-color:var(--pass)}
   .card.nope{border-color:var(--fail)}
-  .card .tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;
-    text-transform:uppercase}
+  .card .tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase}
   .card.yes .tag{color:var(--pass)} .card.nope .tag{color:var(--fail)}
+  .card p{font-size:var(--s1);line-height:1.5}
 
-  ul{margin:0;padding-left:1.15rem;display:flex;flex-direction:column;gap:.5rem;
+  ul{margin:0;padding-left:1.15rem;display:flex;flex-direction:column;gap:.45rem;
     color:var(--fg-dim);max-width:64ch}
   li::marker{color:var(--accent-fg)}
 
   .note{font-family:var(--font-mono);font-size:var(--s1);color:var(--fg-faint);
-    border-top:1px solid var(--line);padding-top:.8rem;max-width:70ch}
+    border-top:1px solid var(--line);padding-top:.8rem;max-width:72ch;line-height:1.6}
 
   a{color:var(--accent-fg);text-decoration:none;border-bottom:1px solid var(--signal-line)}
   a:hover{border-bottom-color:var(--accent-fg)}
   a:focus-visible,button:focus-visible{outline:2px solid var(--accent-fg);outline-offset:3px}
 
-  /* ---- chrome ---- */
-  .hud{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;
-    justify-content:space-between;align-items:center;gap:1rem;
-    padding:.7rem clamp(1.25rem,5vw,5.5rem);border-top:1px solid var(--line);
-    background:var(--bg);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--fg-faint)}
+  /* speaker notes */
+  .notes{display:none}
+  body.notes-on .slide.on .notes{display:block;position:fixed;left:0;right:0;bottom:2.6rem;
+    z-index:35;max-height:min(40vh,25rem);overflow-y:auto;background:var(--panel);
+    border-top:2px solid var(--accent-fg);padding:1.1rem clamp(1.25rem,5vw,5.5rem) 1.4rem}
+  .notes h4{margin:0 0 .6rem;font-family:var(--font-mono);font-size:.64rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent-fg);font-weight:500}
+  .notes p{font-size:.9rem;line-height:1.6;max-width:88ch;margin:0 0 .55rem;color:var(--fg-dim)}
+  .notes p:last-child{margin-bottom:0}
+  .notes b{color:var(--fg)}
+
+  .hud{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;
+    align-items:center;gap:1rem;padding:.65rem clamp(1.25rem,5vw,5.5rem);
+    border-top:1px solid var(--line);background:var(--bg);font-family:var(--font-mono);
+    font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-faint)}
   .hud b{color:var(--fg);font-variant-numeric:tabular-nums;font-weight:600}
-  .hud nav{display:flex;gap:.4rem}
-  .hud button{font:inherit;letter-spacing:inherit;text-transform:inherit;
-    background:transparent;color:var(--fg-faint);border:1px solid var(--line);
-    padding:.28rem .6rem;cursor:pointer;transition:color .2s,border-color .2s}
+  .hud nav{display:flex;gap:.4rem;align-items:center}
+  .hud button{font:inherit;letter-spacing:inherit;text-transform:inherit;background:transparent;
+    color:var(--fg-faint);border:1px solid var(--line);padding:.28rem .6rem;cursor:pointer;
+    transition:color .2s,border-color .2s}
   .hud button:hover{color:var(--accent-fg);border-color:var(--signal-line)}
-  @media (max-width:640px){.hud .keys{display:none}}
+  .hud button.active{color:var(--accent-fg);border-color:var(--signal-line);background:var(--signal-soft)}
+  @media (max-width:700px){.hud .keys{display:none}}
 
   @media print{
     .rail,.hud,.prog{display:none}
-    .slide{display:flex!important;min-height:auto;page-break-after:always;padding:1.5cm}
+    .slide{display:flex!important;min-height:auto;page-break-after:always;padding:1.2cm}
+    .notes{display:block!important;position:static!important;max-height:none!important;
+      border-top:1pt solid #999;margin-top:1rem;padding:.6rem 0 0!important;background:none!important}
     body{background:#fff;color:#000}
-    :root{--bg:#fff;--fg:#000;--fg-dim:#333;--fg-faint:#666;--line:#ccc;--accent-fg:#9C6318}
+    :root{--bg:#fff;--fg:#000;--fg-dim:#333;--fg-faint:#666;--line:#ccc;--accent-fg:#9C6318;--panel:#fff}
   }
 </style>
 
@@ -201,458 +206,661 @@
 
 <div class="deck" id="deck">
 
-  <!-- 1 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">CGP · HQ Operations · AI Literacy</div>
-      <h1>Beyond the prompt.</h1>
-      <p class="lead">You already know how to write a good prompt. This is about the three
-        things stacked on top of it — and the one number that governs all of them.</p>
-      <div class="note">A 30-minute walkthrough for recruitment, business development and
-        HQ operations. Full material at <strong>github.com/lancelaxa/Your-Augmented-Colleague</strong></div>
-    </div>
-  </section>
+<!-- 1 ................................................................. -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">CGP · Recruitment · Business Development · HQ Operations</div>
+    <h1>Beyond the prompt.</h1>
+    <p class="lead">You already know how to ask AI for something and get a decent answer.
+      This session is about the next three steps — and why most companies never take them.</p>
+    <div class="note">About 30 minutes · No technical background needed ·
+      Everything here is written up at <strong>github.com/lancelaxa/Your-Augmented-Colleague</strong></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Open by setting expectations.</b> "Nobody is going to have to write code today. Everything I show you, you could start doing on Monday with the tools you already have."</p>
+    <p><b>Ask the room a question to get them engaged:</b> "Hands up — who has used ChatGPT or Claude for work in the last month?" Most hands go up. "Keep them up if you saved that prompt somewhere your colleague could find it." Almost all hands drop. <b>That gap is the entire session.</b></p>
+    <p><b>Set the frame:</b> "You're all good at asking. What we're bad at, as a company, is keeping what works."</p>
+  </div>
+</section>
 
-  <!-- 2 -->
-  <section class="slide" data-r="1">
-    <div class="wrap">
-      <div class="eyebrow">Starting point</div>
-      <h2>You know this part already.</h2>
-      <p class="lead">Role, task, context, constraints, format, an example. Show one worked
-        example and quality jumps. Give it an “I don’t know” exit and it stops inventing.</p>
-      <div class="grid g3">
-        <div class="cell"><span class="k">You can do</span><span class="v">Write a precise prompt</span></div>
-        <div class="cell"><span class="k">You can do</span><span class="v">Get a usable draft back</span></div>
-        <div class="cell hi"><span class="k">The wall</span><span class="v">Nothing you learned survives the conversation</span></div>
-      </div>
-      <p>The good prompt you wrote on Tuesday is gone by Thursday. Your colleague solves the
-        same problem from scratch next week. Nobody can check what the AI was told before it
-        produced the report that went to a client.</p>
-      <div class="note">That is not a prompting problem. Better wording will not fix it.</div>
+<!-- 2 ................................................................. -->
+<section class="slide" data-r="1">
+  <div class="wrap">
+    <div class="eyebrow">Where you are now</div>
+    <h2>Your prompts are fine. That's not the problem.</h2>
+    <p class="lead">Most of you already do this well — give it a role, explain the task, paste
+      the material, say what format you want, show an example.</p>
+    <div class="grid g3">
+      <div class="cell"><span class="k">You can already</span><span class="v">Write a clear instruction</span></div>
+      <div class="cell"><span class="k">You can already</span><span class="v">Get back a usable first draft</span></div>
+      <div class="cell hi"><span class="k">But</span><span class="v">Tomorrow, it's gone</span></div>
     </div>
-  </section>
+    <p>The really good prompt you wrote on Tuesday is buried in your chat history by Thursday.
+      Your colleague works out the same thing from scratch next week. And when a client asks
+      how we produced a report, nobody can show what the AI was actually told.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Getting better at asking has a ceiling. Everything after this is about
+        making good work <em>repeatable</em> — so the company keeps it, not just you.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>The point of this slide:</b> take the pressure off. People assume "learn AI" means "learn to write cleverer prompts." It doesn't. You're telling them their existing skill is fine — so they stop worrying about that and pay attention to what's actually missing.</p>
+    <p><b>Make it personal.</b> "Think of the single best prompt you've ever written. Could you find it right now, in under a minute? Could I?" Let that land.</p>
+    <p><b>The three failures on the slide, said out loud:</b> you lose it, your colleague duplicates it, and we can't audit it. The third one is the one that matters for government work — if a client or a regulator asks how a document was produced, "someone typed something into ChatGPT" is not an acceptable answer.</p>
+    <p><b>The takeaway, in your own words:</b> "The rest of this session isn't about making you better at prompting. It's about making sure that when one of you works something out, all forty of us get it."</p>
+  </div>
+</section>
 
-  <!-- 3 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">Why this matters commercially</div>
-      <h2>Two numbers that are both true.</h2>
-      <div class="statrow">
-        <div>
-          <div class="stat ok">66%</div>
-          <div class="lbl">of knowledge workers using AI say it lets them spend more time on
-            high-value work.<br><span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Microsoft Work Trend Index 2026 · n=20,000</span></div>
+<!-- 3 ................................................................. -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">Why the company should care</div>
+    <h2>Two numbers that are both true.</h2>
+    <div class="statrow">
+      <div><div class="stat ok">66%</div>
+        <div class="lbl">of people using AI at work say it frees them up for more valuable work.
+          <br><span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Microsoft, 2026 · 20,000 people surveyed</span></div></div>
+      <div><div class="stat no">89%</div>
+        <div class="lbl">of <strong>companies</strong> measured <strong>no</strong> improvement
+          at all.<br><span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Study of 6,000 executives</span></div></div>
+    </div>
+    <p class="lead">Individuals get faster. The company doesn't.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Everyone has the same AI tools. The winners aren't the ones with better
+        AI — they're the ones who <em>keep and reuse</em> what works.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is your slide for leadership.</b> If a director only remembers one thing, make it this.</p>
+    <p><b>Explain why both can be true.</b> "Forty people each save two hours a week. That's eighty hours. So where did it go? It went into forty separate inboxes. Nothing was captured, nothing was shared, nothing changed how we actually work. The time was real — it just evaporated."</p>
+    <p><b>Kill the shopping-list instinct early.</b> Someone will ask which AI tool we should buy. "Our competitors have exactly the same tools we do. Nobody is winning because of the tool."</p>
+    <p><b>Land it:</b> "The gap between 66% and 89% is what today is about. Everything else is detail."</p>
+  </div>
+</section>
+
+<!-- 4 ................................................................. -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">The map</div>
+    <h2>Four levels. Each one builds on the last.</h2>
+    <div class="steps">
+      <div><span class="n">01 PROMPT</span><span class="t">Asking well</span>
+        <span class="d">One message. <br><b>You already do this.</b></span></div>
+      <div><span class="n">02 CONTEXT</span><span class="t">Giving it the right material</span>
+        <span class="d">What it can see before it answers. <br><b>Biggest quick win.</b></span></div>
+      <div><span class="n">03 LOOP</span><span class="t">It runs without you</span>
+        <span class="d">It does the job, checks its own work, and knows when to stop.</span></div>
+      <div><span class="n">04 GRAPH</span><span class="t">A team with a flowchart</span>
+        <span class="d">Several steps, different people, approvals in the middle.</span></div>
+    </div>
+    <p>You can't skip levels. A weak prompt inside an automated system is still a weak prompt —
+      it just produces bad work faster, with nobody watching.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Level 2 is where most of you should spend the next month. Levels 3 and 4
+        are where the company is heading.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Point at the strip along the top of the screen</b> — it lights up to show which level we're on as we go. Tell them that so they can orient themselves.</p>
+    <p><b>Use a familiar analogy.</b> Level 1 is asking a new colleague to do something. Level 2 is handing them the file and the template first. Level 3 is them doing the whole task and checking it before bringing it to you. Level 4 is a proper process with sign-offs.</p>
+    <p><b>Manage expectations honestly:</b> "We're at level 1. Most companies are. That's fine — but only if we start climbing."</p>
+    <p><b>If someone asks whether they need to learn coding for 3 and 4:</b> no. Level 3 starts with writing a checklist by hand. That's it.</p>
+  </div>
+</section>
+
+<!-- 5 ................................................................. -->
+<section class="slide" data-r="2">
+  <div class="wrap">
+    <div class="eyebrow">Level 02 · The right material</div>
+    <h2>More information isn't better. The <em>right</em> information is.</h2>
+    <p class="lead">Everyone's instinct, when the answer is bad, is to paste in more. That
+      usually makes it worse.</p>
+    <div class="split">
+      <div class="card nope"><span class="tag">What people do</span>
+        <p><b>"Summarise this candidate for me."</b></p>
+        <p>Then they paste the CV and hope. The summary comes back generic, praises things
+          the client doesn't care about, and reads the same for every candidate.</p></div>
+      <div class="card yes"><span class="tag">What works</span>
+        <p><b>"Score this candidate against these six criteria. Quote the CV line that
+          supports each score. If the CV doesn't say, write 'not stated'."</b></p>
+        <p>Plus the role brief and the scoring sheet. Now every candidate is assessed the
+          same way, and you can compare them side by side.</p></div>
+    </div>
+    <p>Same AI. Same candidate. The difference is entirely in <strong>what you gave it to work
+      with</strong> — the brief, the scoring criteria, and one worked example.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Before you ask, give it three things: the <em>standard</em> to measure
+        against, the <em>material</em> to read, and one <em>example</em> of a good answer.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the highest-value slide for day-to-day work.</b> If people only change one habit, make it this one — and it costs nothing.</p>
+    <p><b>Walk through the contrast slowly.</b> Ask: "Who has asked AI to summarise a CV and got back something that sounded fine but told you nothing?" Most hands. "That's not the AI being weak. It's that you never told it what good looks like."</p>
+    <p><b>Emphasise 'not stated'.</b> This is the single best trick on the slide. Left to itself, AI fills gaps with confident guesses, because it's built to be helpful. Telling it to flag gaps instead turns an invented detail into a question you can go and check. On a candidate summary, that's the difference between a real assessment and fiction.</p>
+    <p><b>Warn them about the opposite failure too:</b> don't dump in everything. If you paste sixty pages, the three lines that matter get lost. Curate — don't hoard.</p>
+    <p><b>Practical close:</b> "Where does the scoring sheet live? Right now, in someone's head. That's the problem we fix at level 3."</p>
+  </div>
+</section>
+
+<!-- 6 ................................................................. -->
+<section class="slide" data-r="2">
+  <div class="wrap">
+    <div class="eyebrow">Level 02 · In practice</div>
+    <h2>Four jobs you do every week.</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>The job</th><th style="text-align:left">What people give it</th><th style="text-align:left">What it actually needs</th></tr></thead>
+        <tbody>
+          <tr><td style="font-family:var(--font-sans);color:var(--fg)">Screen a CV</td>
+            <td style="text-align:left">The CV</td>
+            <td style="text-align:left;color:var(--fg)">CV + role brief + scoring sheet + one example</td></tr>
+          <tr><td style="font-family:var(--font-sans);color:var(--fg)">Write the weekly client update</td>
+            <td style="text-align:left">"Summarise the project"</td>
+            <td style="text-align:left;color:var(--fg)">Last week's update + what closed this week + the report template</td></tr>
+          <tr><td style="font-family:var(--font-sans);color:var(--fg)">Write a job advert</td>
+            <td style="text-align:left">The job title</td>
+            <td style="text-align:left;color:var(--fg)">Role brief + two adverts that worked + our tone rules</td></tr>
+          <tr><td style="font-family:var(--font-sans);color:var(--fg)">Digest a long tender document</td>
+            <td style="text-align:left">The whole 80-page PDF</td>
+            <td style="text-align:left;color:var(--fg)">"List every requirement, quote it exactly, mark which are compulsory"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Look at the last column. It's mostly <strong>the template, the scoring sheet, last
+      week's version, and a good past example.</strong> None of that is clever. It's filing.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Most "AI problems" are actually filing problems. Fix where your templates
+        and examples live, and the AI gets better for free.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Jargon check — say this out loud:</b> a <b>tender</b> is when a client or a government agency publishes what they need and invites companies to submit a proposal. You'll also hear <b>RFP</b> — Request for Proposal — which is the same idea. In Singapore, most government ones come through GeBIZ, the government's procurement portal. Don't assume everyone in the room knows this; recruiters often don't.</p>
+    <p><b>Pick the row that matches your audience</b> and walk through it in detail. Recruiters: the CV row. BD: the tender row. Operations: the weekly update row.</p>
+    <p><b>The tender row is worth dwelling on for BD.</b> Asking AI to "summarise this tender" gives you a vague paragraph. Asking it to "list every requirement, quote it exactly, and mark which are compulsory" gives you a checklist you can actually work from — and you can count the rows to check it didn't miss any. That's a genuinely great use of AI: boring, mechanical, and easy to verify.</p>
+    <p><b>Land the filing point:</b> "Nobody in this room needs a better AI. You need to know where the current version of the scoring sheet lives."</p>
+  </div>
+</section>
+
+<!-- 7 ................................................................. -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · Loops</div>
+    <h2>Stop pressing enter. Start designing the process.</h2>
+    <div class="quote">Prompt-by-prompt supervision stopped scaling with review capacity.
+      <cite>Addy Osmani, June 2026 — who named this shift</cite></div>
+    <p class="lead">In plain English: <strong>AI can now do far more than any of us has time to
+      check.</strong> Checking is the bottleneck — not the AI.</p>
+    <p>A <strong>loop</strong> is when the AI does a job, checks its own work against rules you
+      set, fixes what's wrong, and only comes to you when it's done or genuinely stuck. You stop
+      being the person clicking through every step, and become the person who designed the steps.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Your scarce resource isn't AI time. It's <em>your attention</em>. A loop
+        spends it only on the exceptions.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Establish that this is genuinely new.</b> This idea got its name in June 2026. If you'd searched for it eighteen months ago it didn't exist. Say that — it's why nobody in the room has heard of it, and it's why we're not late.</p>
+    <p><b>Translate the quote before moving on.</b> It sounds academic; it isn't. It means: the limit was never how much AI could do. The limit is that a human has to look at all of it. For a team whose whole week is checking other people's work, that should land hard.</p>
+    <p><b>Use the junior-hire analogy.</b> "Think about a new consultant. In month one you check everything they do. By month six, you check the tricky ones. What changed? Not their intelligence — you learned what to trust and built a habit around it. A loop is that, written down."</p>
+    <p><b>Pre-empt the fear.</b> Somebody is thinking "is this replacing my job?" Address it directly: the loop does the searching, sorting and first-drafting. Every decision that involves money, judgement or a person stays with you. Say it before they ask.</p>
+  </div>
+</section>
+
+<!-- 8 ................................................................. -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · How a loop works</div>
+    <h2>Four parts. Two examples.</h2>
+    <div class="split">
+      <div class="card"><span class="tag" style="color:var(--accent-fg)">Everyday example · doing laundry</span>
+        <p><b>Trigger</b> — the basket is full.<br>
+          <b>The work</b> — wash it.<br>
+          <b>The check</b> — is it actually clean and dry?<br>
+          <b>Stop rule</b> — clean → fold it. Still dirty → wash again. Third time still dirty →
+          it's not coming out, deal with it yourself.</p>
+        <p>You'd never run a machine with no way to tell if the clothes came out clean.
+          <b>That's a loop.</b></p></div>
+      <div class="card yes"><span class="tag">Recruitment example · new CVs</span>
+        <p><b>Trigger</b> — every morning at 7am.<br>
+          <b>The work</b> — take yesterday's applications, remove personal details, score each
+          against the role's scoring sheet.<br>
+          <b>The check</b> — every criterion scored? every score quotes a CV line? no NRIC or
+          phone number left in?<br>
+          <b>Stop rule</b> — passes → lands in your shortlist to review. Fails twice → flagged
+          to you by name.</p>
+        <p>You arrive to <b>a scored shortlist</b>, not forty raw CVs.</p></div>
+    </div>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Trigger, work, <em>check</em>, stop rule. Miss the check and you don't
+        have automation — you have an intern nobody is supervising.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Start with the laundry.</b> It gets a laugh and it makes the structure obvious. Everyone instantly agrees you need a way to tell whether the clothes are clean — then point out that most people building AI workflows skip exactly that step.</p>
+    <p><b>Then walk the recruitment column slowly.</b> This is the one they'll remember. Emphasise that the consultant still decides who to advance — the loop just did the sorting, the redacting and the first-pass scoring overnight.</p>
+    <p><b>Highlight the PII check specifically.</b> "Notice one of the checks is 'no NRIC left in.' That's not a nice-to-have — that's a legal requirement, and a computer is better at spotting it than a tired human at 6pm."</p>
+    <p><b>Stress the stop rule.</b> Without it, a stuck AI will keep trying forever, spending money and going nowhere. "Fails twice, it comes to a human" is the whole safety mechanism.</p>
+    <p><b>If you have time, ask the room:</b> "What's the equivalent for your desk? What arrives in a pile every morning?" Their answers are your automation shortlist.</p>
+  </div>
+</section>
+
+<!-- 9 ................................................................. -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · The catch</div>
+    <h2>AI aims for "looks finished".</h2>
+    <p class="lead">Ask for a client report and you'll get something that looks exactly like a
+      client report. Right length, right headings, confident tone.</p>
+    <p>Whether the numbers add up, whether the certifications listed are ones we actually hold,
+      whether it answered the question the client asked — those are <strong>completely different
+      things</strong>, and nothing about "write me a report" makes it get those right.</p>
+    <div class="quote">"Done" is a claim, not a proof.</div>
+    <p>This is why the <strong>check has to come from somewhere other than the thing that did
+      the work</strong>. Marking your own homework doesn't work for people either.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Confident tone is not evidence of correctness. It's just how the
+        technology writes.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the trust slide.</b> Everything about safe AI use depends on people internalising it.</p>
+    <p><b>Give a concrete horror story.</b> "Imagine a tender response that lists a certification we don't hold. It reads beautifully. It's confident. It's also a misrepresentation to a government agency." Let the room sit with that for a second.</p>
+    <p><b>Explain <i>why</i> it happens</b>, so it doesn't sound like AI-bashing: the technology is built to produce plausible, well-formed text. Plausible and correct usually overlap — but when they don't, nothing warns you, because it has no separate sense of "am I right."</p>
+    <p><b>The homework line usually lands.</b> "Would you let a consultant review their own placement decision and sign it off? No. Same principle."</p>
+    <p><b>Bridge to the next slide:</b> "So the obvious question is — what counts as a good check? Not all checks are equal, and the next slide ranks them."</p>
+  </div>
+</section>
+
+<!-- 10 ................................................................ -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · Ways of checking</div>
+    <h2>Five ways to check work — worst to best.</h2>
+    <div class="ladder">
+      <div><span class="st">WORST</span><span class="nm">It checks itself</span>
+        <span class="ds">"Now review your answer." Like proofreading your own email — you read what you meant to write.</span></div>
+      <div><span class="nm">A second AI, same instructions</span>
+        <span class="ds">You ask a fresh AI to do the identical task, then compare. Weak, because
+          <b>same instructions and same document tend to produce the same mistake</b> — like two people misreading the same badly-worded sentence.</span></div>
+      <div><span class="nm">A second AI, told to attack it</span>
+        <span class="ds">Instead of "is this good?" you say <b>"find three things wrong with this."</b>
+          Ask "is this good?" and you'll be told yes. Ask for faults and it finds real ones. Same tool, opposite instruction.</span></div>
+      <div><span class="nm">Against a fixed checklist</span>
+        <span class="ds">Not an opinion — a scoring sheet. "Are all eight required sections present? Score each 1–5." Same test every time, so results are comparable.</span></div>
+      <div class="now"><span class="st">BEST</span><span class="nm">A factual test</span>
+        <span class="ds">No judgement at all. <b>Does the pricing column add up? Is the deadline a real future date? Is there an NRIC left in this file?</b> Yes or no.</span></div>
+    </div>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Turn as many checks as possible into <em>yes/no facts</em>. Every check
+        that becomes a fact is one you no longer have to trust anyone's opinion on.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Go one rung at a time — this slide rewards slowing down.</b></p>
+    <p><b>Rung 1, self-check:</b> use the email analogy. Everyone has sent an email with a typo they read past five times. You see what you intended, not what's there. AI has the same problem, for the same reason.</p>
+    <p><b>Rung 2, second AI same instructions</b> — this is the one they asked about, so explain it properly. "Imagine giving two consultants the identical brief and the identical CV, with no discussion. If the brief is ambiguous, they'll both misread it the same way, and you'll get two matching answers that are both wrong. Two wrong answers that agree feel like confirmation. That's why it's weak."</p>
+    <p><b>Rung 3, adversarial</b> — the key point is that <i>the instruction does the work, not the tool</i>. "If you ask me 'is this report good?', I'll be polite and say it's fine. If you ask me 'find me three problems with this report', I'll actually go looking. Identical AI — completely different output. This is free, and almost nobody does it."</p>
+    <p><b>Tell them to steal rung 3 today.</b> Paste your draft into a fresh chat with "find three things wrong with this." Fresh chat matters — in the same conversation it's still marking its own homework.</p>
+    <p><b>Rung 5:</b> "Does this column add up" has no opinion in it. It's right or it's wrong. Those are the checks worth building first because they never get tired and never get talked round.</p>
+  </div>
+</section>
+
+<!-- 11 ................................................................ -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · Why checking matters this much</div>
+    <h2>Small mistakes multiply. Fast.</h2>
+    <p class="lead">Say the AI gets each step right <strong>95% of the time</strong>. Sounds
+      excellent — that's an A grade.</p>
+    <p>But steps stack. Step 2 works from step 1's answer. If step 1 was wrong, step 2 is
+      wrong too, no matter how well it performs.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>If each step is right…</th><th>after 3 steps</th><th>after 10 steps</th><th>after 20 steps</th></tr></thead>
+        <tbody>
+          <tr><td>70% of the time</td><td>34%</td><td class="crit">3%</td><td class="crit">almost never</td></tr>
+          <tr><td>90% of the time</td><td>73%</td><td class="crit">35%</td><td class="crit">12%</td></tr>
+          <tr class="key"><td>95% of the time</td><td>86%</td><td class="crit">60%</td><td class="crit">36%</td></tr>
+          <tr><td>99% of the time</td><td>97%</td><td class="good">90%</td><td>82%</td></tr>
+        </tbody>
+      </table>
+      <p style="padding:.6rem 0 .8rem;font-size:var(--s1)">Read the highlighted row: <strong>95% right at every
+        single step still only gets you 60% right over a ten-step job.</strong></p>
+    </div>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">This is just arithmetic — it happens to people too. It's why we check
+        at each stage instead of only at the end.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the most important slide in the deck. Slow right down.</b></p>
+    <p><b>Build it with a human example first, before showing the numbers.</b> "A CV gets typed into the system with the wrong notice period. Nobody catches it. It flows into the shortlist, into the client submission, into the interview scheduling, into the offer. By the time anyone notices, five things are wrong — from one small mistake at the start." Everyone in the room has lived this.</p>
+    <p><b>Then read the highlighted row aloud, slowly.</b> "Ninety-five percent accurate at every single step. Ten steps. Sixty percent." Pause. "That's a coin flip on a job you thought was an A grade."</p>
+    <p><b>Head off the wrong conclusion.</b> Someone will say "so AI isn't reliable enough." Wrong lesson. The right lesson is three things: use fewer steps, check at each stage rather than only at the end, and put a human at the important points. Say those three explicitly.</p>
+    <p><b>If someone asks whether this is really about AI:</b> no, and that's the point. It applies to any multi-step process, including entirely human ones. It's why your existing sign-off gates exist. AI just runs the steps faster, so it hits you sooner.</p>
+    <p><b>If the maths people want it:</b> it's 0.95 multiplied by itself ten times. Don't dwell there — most of the room doesn't need it.</p>
+  </div>
+</section>
+
+<!-- 12 ................................................................ -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · The most useful habit today</div>
+    <h2>If it keeps getting it wrong — <em>start a new chat.</em></h2>
+    <p class="lead">Yes. Genuinely. Don't keep arguing with it in the same conversation.</p>
+    <div class="split">
+      <div class="card nope"><span class="tag">What everyone does</span>
+        <p>"That's not right, try again."<br>"Still wrong, try again."<br>"No, I said <i>quarterly</i>…"</p>
+        <p>Every failed attempt is <b>still sitting in the conversation</b>. The AI reads its own
+          wrong answers as background and keeps walking down the same path. Researchers measured
+          it: after a failure, the next attempt is <b>about seven times more likely to fail too.</b></p></div>
+      <div class="card yes"><span class="tag">What to do instead</span>
+        <p><b>1.</b> Open a brand-new chat.<br>
+          <b>2.</b> Paste the original request again.<br>
+          <b>3.</b> Add one line: <i>"An earlier attempt confused quarterly with monthly figures
+          — be careful with that."</i><br>
+          <b>4.</b> Don't paste the failed answer in.</p>
+        <p>You keep the lesson. You throw away the confusion.</p></div>
+    </div>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Two tries in the same chat. On the third, start fresh. It's the cheapest
+        habit on this slide deck and it works immediately.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Answer the question directly, because it's the one people actually have:</b> yes — if you're going round in circles, start again in a clean chat. Say it plainly.</p>
+    <p><b>Explain why, because the reason makes it stick.</b> A chat is one long document, and the AI re-reads the whole thing every time. When it fails four times, those four wrong answers are still on the page. It's now reading its own mistakes as if they were reference material. You've made the problem worse by trying harder.</p>
+    <p><b>Use a human analogy.</b> "It's like someone who's talked themselves into a corner. Sometimes you don't argue them out of it — you change the subject, come back tomorrow, and start clean."</p>
+    <p><b>The one thing to carry across:</b> a single sentence about what went wrong. Not the failed output — just the lesson. That's the whole trick.</p>
+    <p><b>Give them the rule of thumb and repeat it:</b> two tries, then fresh chat. It's concrete, it's memorable, and they can use it this afternoon.</p>
+  </div>
+</section>
+
+<!-- 13 ................................................................ -->
+<section class="slide" data-r="3">
+  <div class="wrap">
+    <div class="eyebrow">Level 03 · Why these projects fail</div>
+    <h2>It's not that AI isn't clever enough. It loses track.</h2>
+    <div class="statrow" style="grid-template-columns:minmax(180px,.6fr) 2fr;align-items:start">
+      <div><div class="stat">60%</div>
+        <div class="lbl">of AI failures in real companies come from the system
+          <strong>losing track of what's already happened</strong> — not from bad reasoning.</div></div>
+      <div>
+        <div class="card nope" style="height:100%">
+          <span class="tag">A week on a live role</span>
+          <p><b>Monday</b> — you ask AI to help manage a 12-person shortlist. It scores them all. Good.</p>
+          <p><b>Wednesday</b> — two candidates withdraw. You mention it in passing, in a different chat.</p>
+          <p><b>Thursday</b> — the client drops one requirement and adds another. You update your notes.</p>
+          <p><b>Friday</b> — you ask for a revised shortlist. It gives you a confident, well-written list that
+            <b>includes a withdrawn candidate</b> and scores everyone against <b>Monday's requirements.</b></p>
+          <p>Nothing here was a reasoning failure. It simply never knew about Wednesday or Thursday.</p>
         </div>
-        <div>
-          <div class="stat no">89%</div>
-          <div class="lbl">of firms measured <strong>zero</strong> productivity impact.<br>
-            <span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Study of 6,000 executives</span></div>
-        </div>
-      </div>
-      <p class="lead">Individuals get faster. Organisations mostly do not.</p>
-      <div class="note">Everyone has the same models. The gap is not the tool — it is that
-        individual improvements are never written down, versioned, reviewed or re-run.</div>
-    </div>
-  </section>
-
-  <!-- 4 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">The ladder</div>
-      <h2>Four rungs. They stack, they don’t replace.</h2>
-      <div class="steps">
-        <div><span class="n">01 PROMPT</span><span class="t">One message</span>
-          <span class="d">What do I say? <br>You control the wording.</span></div>
-        <div><span class="n">02 CONTEXT</span><span class="t">The whole window</span>
-          <span class="d">What should it see? <br>You control the information.</span></div>
-        <div><span class="n">03 LOOP</span><span class="t">One agent’s cycle</span>
-          <span class="d">How does it run without me — and when does it stop?</span></div>
-        <div><span class="n">04 GRAPH</span><span class="t">Many agents</span>
-          <span class="d">Who does what, in what order, with which approvals?</span></div>
-      </div>
-      <p>A graph is made of loops. A loop is made of prompts running against a context.
-        Getting good at rung 3 does not let you skip rung 1 — <strong>a bad prompt inside an
-        automated loop is just a bad prompt that now runs 200 times unsupervised.</strong></p>
-    </div>
-  </section>
-
-  <!-- 5 -->
-  <section class="slide" data-r="2">
-    <div class="wrap">
-      <div class="eyebrow">Rung 02 · Context engineering</div>
-      <h2>The skill is curation, not accumulation.</h2>
-      <p class="lead">Everyone’s instinct on a bad answer is to paste in more. That makes it
-        worse — and the failure has a name.</p>
-      <div class="grid g3">
-        <div class="cell"><span class="k">Distraction</span><span class="v">60 pages of tender boilerplate bury the 3 evaluation criteria</span></div>
-        <div class="cell"><span class="k">Clashing</span><span class="v">v3 and v7 of the pricing sheet are both in the folder</span></div>
-        <div class="cell"><span class="k">Poisoning</span><span class="v">Turn 2 misreads the deadline. Turns 3–40 build on it.</span></div>
-      </div>
-      <p><strong>Context rot:</strong> as the window fills, the model’s ability to attend to
-        what matters degrades. Bigger context windows did not solve this.</p>
-      <div class="note">Four moves — WRITE it outside the window · SELECT only what this step
-        needs · COMPRESS finished work · ISOLATE into separate windows.</div>
-    </div>
-  </section>
-
-  <!-- 6 -->
-  <section class="slide" data-r="2">
-    <div class="wrap">
-      <div class="eyebrow">Rung 02 · In practice</div>
-      <h2>What “good context” looks like here.</h2>
-      <div class="scroll">
-        <table>
-          <thead><tr><th>Task</th><th style="text-align:left">Weak</th><th style="text-align:left">Strong</th></tr></thead>
-          <tbody>
-            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Screen a CV</td>
-              <td style="text-align:left">The CV alone</td>
-              <td style="text-align:left;color:var(--fg)">Anonymised CV + role brief + scoring rubric + one worked example</td></tr>
-            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Draft a tender response</td>
-              <td style="text-align:left">“Write an RFP response”</td>
-              <td style="text-align:left;color:var(--fg)">Evaluation criteria + our 3 best past responses + win themes + page limit</td></tr>
-            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Weekly status report</td>
-              <td style="text-align:left">“Summarise the project”</td>
-              <td style="text-align:left;color:var(--fg)">Milestone tracker + last week’s report + closed issues + the template</td></tr>
-            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Summarise a policy doc</td>
-              <td style="text-align:left">The 80-page PDF</td>
-              <td style="text-align:left;color:var(--fg)">The 6 pages that changed + last version’s summary + “what changed?”</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>The pattern in the right column: <em>the rubric, the template, the prior example, the
-        delta.</em> Three of those four are files that should live in a shared repository.</p>
-      <div class="note">This is where AI literacy and “learn GitHub” become the same project.
-        The repo is not where you store the work — the repo <strong>is</strong> the context.</div>
-    </div>
-  </section>
-
-  <!-- 7 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · Loop engineering</div>
-      <h2>Named in June 2026. Not a buzzword — a dated shift.</h2>
-      <div class="quote">Developers shouldn’t be prompting coding agents anymore. They should
-        be designing loops that prompt your agents.
-        <cite>Peter Steinberger — the line that named it</cite></div>
-      <div class="quote">Prompt-by-prompt supervision stopped scaling with review capacity.
-        <cite>Addy Osmani — on why the shift happened</cite></div>
-      <p class="lead">Read that second one again. It is the business case in one sentence.</p>
-      <p>The bottleneck was never that AI couldn’t do more. It is that <strong>a human has to
-        look at everything it does</strong>, and there are only so many hours. For a team whose
-        week is spent checking other people’s work, that is not a technical curiosity — it is
-        the job description.</p>
-    </div>
-  </section>
-
-  <!-- 8 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · Anatomy</div>
-      <h2>Four parts. Miss one and you have a liability.</h2>
-      <div class="steps">
-        <div><span class="n">01 TRIGGER</span><span class="t">What starts it</span>
-          <span class="d">A schedule, an event, a queue. Without one you don’t have a loop — you have a task you must remember to run.</span></div>
-        <div><span class="n">02 TOPOLOGY</span><span class="t">What it does</span>
-          <span class="d">The work itself. Your prompt and context skills, unchanged.</span></div>
-        <div><span class="n">03 VERIFIER</span><span class="t">The independent check</span>
-          <span class="d">Something other than the doer decides whether it is actually done.</span></div>
-        <div><span class="n">04 STOP RULE</span><span class="t">The boundary</span>
-          <span class="d">Pass, budget exhausted, or escalate to a human. You need all three.</span></div>
-      </div>
-      <div class="quote" style="border-color:var(--fail)">A loop with no verifier is not
-        automation. It is an unsupervised intern with your client’s letterhead.</div>
-    </div>
-  </section>
-
-  <!-- 9 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · The hard part</div>
-      <h2>Agents aim for “looks done”.</h2>
-      <p class="lead">Ask for a tender response and you get something shaped exactly like a
-        tender response. Right length, right headings, confident tone.</p>
-      <p>Whether the pricing table reconciles, whether the certifications cited are ones we
-        actually hold, whether it answers the question asked — those are different properties.
-        <strong>Nothing in “generate a document” optimises for them.</strong></p>
-      <div class="quote">The whole reason you split the verifier from the maker is to make the
-        loop’s “it’s done” mean something. And even then, <strong>“done” is a claim, not a
-        proof.</strong></div>
-      <div class="note">Which is why high-stakes output still needs a human gate — see rung 04.</div>
-    </div>
-  </section>
-
-  <!-- 10 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · Verifier strength</div>
-      <h2>Push every check as far down this list as you can.</h2>
-      <div class="ladder">
-        <div><span class="st">★☆☆☆☆</span><span class="nm">Self-check</span>
-          <span class="ds">“Now check your answer.” Very low trust — it already thinks it’s right.</span></div>
-        <div><span class="st">★★☆☆☆</span><span class="nm">Second agent, same prompt</span>
-          <span class="ds">Correlated blind spots.</span></div>
-        <div><span class="st">★★★☆☆</span><span class="nm">Adversarial prompt</span>
-          <span class="ds">“Find three things wrong with this.” Framing does real work.</span></div>
-        <div><span class="st">★★★★☆</span><span class="nm">Rubric-based</span>
-          <span class="ds">Score against a fixed written checklist. Reproducible, auditable.</span></div>
-        <div class="now"><span class="st">★★★★★</span><span class="nm">Mechanical</span>
-          <span class="ds">Does the pricing table sum? Is every mandatory section present?
-            <strong>Not an opinion — a fact.</strong></span></div>
-      </div>
-      <p>Checks that are already mechanical in our work, and nobody is using them:
-        every mandatory RFP section present · quoted rates match the approved card ·
-        <em>any NRIC-shaped string in a CV summary</em> · every named certification on our verified list.</p>
-    </div>
-  </section>
-
-  <!-- 11 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · The constraint</div>
-      <h2>Reliability compounds downward.</h2>
-      <p class="lead">If each step succeeds with probability <span class="mono">p</span>, an
-        <span class="mono">N</span>-step run succeeds with <span class="mono">p<sup>N</sup></span>.
-        This is arithmetic, not pessimism.</p>
-      <div class="scroll">
-        <table>
-          <thead><tr><th>Per-step accuracy</th><th>3 steps</th><th>5</th><th>10</th><th>20</th><th>100</th></tr></thead>
-          <tbody>
-            <tr><td>70%</td><td>34.3%</td><td>16.8%</td><td class="crit">2.8%</td><td class="crit">0.1%</td><td class="crit">~0%</td></tr>
-            <tr><td>90%</td><td>72.9%</td><td>59.0%</td><td class="crit">34.9%</td><td class="crit">12.2%</td><td class="crit">~0%</td></tr>
-            <tr class="key"><td>95%</td><td>85.7%</td><td>77.4%</td><td class="crit">59.9%</td><td class="crit">35.8%</td><td class="crit">0.6%</td></tr>
-            <tr><td>99%</td><td>97.0%</td><td>95.1%</td><td class="good">90.4%</td><td>81.8%</td><td class="crit">36.6%</td></tr>
-            <tr><td>99.9%</td><td>99.7%</td><td>99.5%</td><td class="good">99.0%</td><td class="good">98.0%</td><td class="good">90.5%</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p><strong>A 95%-accurate agent is a 60%-accurate workflow after ten steps.</strong>
-        The fix is not a better model. It is fewer steps, mechanical checks, and human
-        checkpoints.</p>
-    </div>
-  </section>
-
-  <!-- 12 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · Two consequences</div>
-      <h2>Retrying wrong makes it worse. Gates make it better.</h2>
-      <div class="split">
-        <div class="card nope">
-          <span class="tag">The retry trap</span>
-          <div class="stat no" style="font-size:var(--s5)">7.1×</div>
-          <p>Failed attempts raise the per-step error rate by <strong>7.1× over baseline</strong>
-            — because the failed attempt stays in the conversation and contaminates the next one.
-            <span class="mono" style="font-size:var(--s1)">Rutgers, May 2026</span></p>
-          <p><strong>So “just try again” is actively harmful.</strong> Retry with a <em>clean
-            context</em>: reset the window, keep the task plus a short note on what failed.</p>
-        </div>
-        <div class="card yes">
-          <span class="tag">The reset</span>
-          <div class="stat ok" style="font-size:var(--s5)">↺</div>
-          <p>Once a human confirms an output, <strong>the accumulated failure risk resets</strong>
-            — the rest of the chain starts fresh from a verified state.</p>
-          <p><strong>A human gate is not friction. It is a mathematical reset on compounding
-            error.</strong> Place them before anything irreversible, client-facing, contractual,
-            or touching personal data.</p>
-        </div>
       </div>
     </div>
-  </section>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Keep <em>one</em> living file that everyone and everything reads from —
+        the tracker, not the chat thread. Chats forget. Files don't.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the "why do these projects fail" slide, and the example does the heavy lifting.</b> Walk through the week day by day — don't rush it.</p>
+    <p><b>Land the key point at the end:</b> "Every single thing it did was reasonable, based on what it knew. The problem was what it didn't know. It's not a stupidity problem, it's a bookkeeping problem." Then point at the 60%.</p>
+    <p><b>Make it feel familiar, because it is.</b> This is the same failure as working from last month's version of the rate card, or two people editing different copies of the same tender. We already know this failure — AI just does it faster and with more confidence.</p>
+    <p><b>Give them the fix concretely:</b> one tracker per role or per project. When something changes, it changes there. Every time you ask AI for help, that file is what you give it — not your memory of a conversation.</p>
+    <p><b>Connect it to the repo:</b> this is exactly why the trackers and playbooks are in a shared, version-controlled place rather than in someone's inbox. Same fix, bigger scale.</p>
+  </div>
+</section>
 
-  <!-- 13 -->
-  <section class="slide" data-r="3">
-    <div class="wrap">
-      <div class="eyebrow">Rung 03 · What actually breaks</div>
-      <h2>It is not intelligence. It is bookkeeping.</h2>
-      <div class="statrow">
-        <div><div class="stat">60%</div>
-          <div class="lbl">of production agent incidents trace back to <strong>state-management
-            failures</strong> — the leading category, ahead of model quality.</div></div>
-        <div><div class="stat no">70–95%</div>
-          <div class="lbl">of agent projects fail in production. Mostly engineering-discipline
-            failures, not model failures.</div></div>
-      </div>
-      <div class="grid g3">
-        <div class="cell"><span class="k">Failure 01</span><span class="v">Tool misuse</span></div>
-        <div class="cell"><span class="k">Failure 02</span><span class="v">Context loss</span></div>
-        <div class="cell"><span class="k">Failure 03</span><span class="v">Goal drift</span></div>
-        <div class="cell"><span class="k">Failure 04</span><span class="v">Retry loops</span></div>
-        <div class="cell"><span class="k">Failure 05</span><span class="v">Cascading errors</span></div>
-        <div class="cell hi"><span class="k">Failure 06</span><span class="v">Silent quality degradation</span></div>
-      </div>
-      <div class="note">#06 is the dangerous one. The others announce themselves. Silent
-        degradation looks exactly like success on the dashboard — which is why you sample-audit
-        5–10% of passed outputs forever.</div>
+<!-- 14 ................................................................ -->
+<section class="slide" data-r="4">
+  <div class="wrap">
+    <div class="eyebrow">Level 04 · Graphs — the simplest possible version</div>
+    <h2>A loop is one person. A graph is the whole flowchart.</h2>
+    <div class="split">
+      <div class="card"><span class="tag" style="color:var(--accent-fg)">A loop</span>
+        <p>One person, one job, doing it over and over until it's right.</p>
+        <p><i>"Score these CVs until they're all scored properly."</i></p></div>
+      <div class="card yes"><span class="tag">A graph</span>
+        <p>Several people, each doing their bit, in an order — with rules about who does what
+          next and who has to sign off.</p>
+        <p><i>"BD writes it → compliance checks it → finance prices it → if it's over S$500k
+          the partner approves → then it goes out."</i></p></div>
     </div>
-  </section>
+    <p class="lead">You already have graphs. You just draw them on whiteboards instead of
+      calling them that.</p>
+    <p><strong>Your tender approval process is a graph. Your hiring pipeline is a graph. Your
+      milestone sign-off is a graph.</strong> "Graph engineering" just means drawing that
+      flowchart precisely enough that software can follow it — and putting the approvals in
+      the right places.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Nothing new to learn conceptually. It's your existing approval process,
+        written down properly.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the explain-it-simply slide. Do not use technical language anywhere on it.</b></p>
+    <p><b>The one-line version, if you say nothing else:</b> "A loop is one person doing one job well. A graph is a team with a flowchart."</p>
+    <p><b>Take the mystery out immediately.</b> Ask: "Has anyone here ever drawn a process on a whiteboard with boxes and arrows?" Hands go up. "Congratulations, you've done graph engineering. The only new thing is drawing it precisely enough that software can follow it."</p>
+    <p><b>Use their own process as the example.</b> For BD: enquiry comes in, someone qualifies it, someone decides bid or no-bid, someone writes it, someone checks compliance, someone approves the price, someone submits. That's seven boxes and six arrows. That's a graph.</p>
+    <p><b>Head off the anxiety.</b> Nobody in this room is going to build one. What you need is the vocabulary — so when a vendor pitches an "agentic workflow," you can ask sensible questions. There's a slide on exactly which questions later.</p>
+  </div>
+</section>
 
-  <!-- 14 -->
-  <section class="slide" data-r="4">
-    <div class="wrap">
-      <div class="eyebrow">Rung 04 · Graph engineering</div>
-      <h2>Loops are one agent. Graphs are the org chart.</h2>
-      <p class="lead">A loop breaks the moment the path has to branch, route between
-        specialists, or survive a human in the middle.</p>
-      <div class="grid g3">
-        <div class="cell hi"><span class="k">State</span><span class="v"><strong>The case file</strong> that travels with the job. Every desk reads it, adds to it, passes it on.</span></div>
-        <div class="cell hi"><span class="k">Nodes</span><span class="v"><strong>The desks.</strong> One person or team doing one thing.</span></div>
-        <div class="cell hi"><span class="k">Edges</span><span class="v"><strong>The handover rules.</strong> “If value &gt; S$500k, route to partner.”</span></div>
-      </div>
-      <p>You draw the steps and connections <em>ahead of time</em>, and let the model fill in
-        the boxes. You trade some autonomy for something operations teams value far more:
-        <strong>predictability, auditability, and the ability to put a gate anywhere.</strong></p>
-      <div class="note">You already understand graphs. An org chart is a graph. An approval
-        workflow is a graph. A tender process with stage gates is a graph.</div>
+<!-- 15 ................................................................ -->
+<section class="slide" data-r="4">
+  <div class="wrap">
+    <div class="eyebrow">Level 04 · The three pieces</div>
+    <h2>Case file, desks, handover rules.</h2>
+    <div class="grid g3">
+      <div class="cell hi"><span class="k">The case file</span>
+        <span class="v"><strong>Everything known so far</strong>, travelling with the job. The
+          tender reference, what's been drafted, what compliance said, who approved the price.
+          Every desk reads it and adds to it.</span></div>
+      <div class="cell hi"><span class="k">The desks</span>
+        <span class="v"><strong>Each person or step doing one thing.</strong> BD drafts.
+          Compliance checks. Finance prices. One job each.</span></div>
+      <div class="cell hi"><span class="k">The handover rules</span>
+        <span class="v"><strong>What happens next, and when.</strong> "Under S$100k, the manager
+          signs. Over S$500k, the partner and finance sign."</span></div>
     </div>
-  </section>
+    <p>A well-run process keeps the folder with the job. A badly-run one loses it — someone
+      works from an old version, two people make contradictory decisions, and afterwards nobody
+      can reconstruct who approved what.</p>
+    <p><strong>That's the same 60% failure from earlier</strong>, in human form. The fix is
+      identical: one file, added to rather than overwritten, with a history you can read back.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">If you can't say who approves what at each value threshold, don't automate
+        anything yet. You'd just be automating the confusion.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>The case file is the idea that matters — spend your time there.</b> Everyone understands a physical folder travelling between desks with everything in it. That's the whole concept.</p>
+    <p><b>For BD in Singapore, use a real shape.</b> A GeBIZ tender: the reference number, the closing date, the compulsory requirements, our draft answers, the compliance sign-off, the approved pricing, who authorised submission. All of it travelling together. If any piece goes missing, someone downstream makes a decision on incomplete information.</p>
+    <p><b>Make the handover rules concrete.</b> Ask the room: "Right now, who signs off a S$300,000 bid?" If you get three different answers or a pause, that <i>is</i> the finding. Say so.</p>
+    <p><b>The takeaway is a genuine warning, not a slogan.</b> Automating an unclear approval process makes the confusion faster and harder to see. Writing the process down is valuable on its own — even if we never automate a single step.</p>
+  </div>
+</section>
 
-  <!-- 15 -->
-  <section class="slide" data-r="4">
-    <div class="wrap">
-      <div class="eyebrow">Rung 04 · The detail that catches everyone</div>
-      <h2>Approve before, or find out after.</h2>
-      <div class="split">
-        <div class="card yes">
-          <span class="tag">interrupt_before</span>
-          <h3>“May I send this to the client?”</h3>
-          <p>The process pauses, persists its state, and waits — for a minute or a week —
-            then resumes exactly where it stopped, with full context intact.</p>
-          <p><strong>Use this for anything irreversible:</strong> submitting a bid, emailing a
-            client, publishing a report, transmitting personal data.</p>
-        </div>
-        <div class="card nope">
-          <span class="tag">interrupt_after</span>
-          <h3>“I have sent this to the client.”</h3>
-          <p>The action has <strong>already happened</strong> before the pause.</p>
-          <p>Getting this backwards is how an “approval workflow” turns out to be a
-            <em>notification workflow</em> — discovered at the worst possible moment.</p>
-        </div>
-      </div>
-      <div class="note">Bonus: every state change gets checkpointed, so you can inspect, rewind
-        and fork any point — like git commits. <strong>The audit trail becomes a by-product of
-        the architecture</strong> rather than a documentation chore.</div>
+<!-- 16 ................................................................ -->
+<section class="slide" data-r="4">
+  <div class="wrap">
+    <div class="eyebrow">Level 04 · The mistake that costs the most</div>
+    <h2>Approve <em>before</em>, not find out after.</h2>
+    <div class="split">
+      <div class="card yes"><span class="tag">Approve before ✓</span>
+        <h3>"May I submit this?"</h3>
+        <p>The process stops and waits — for an hour or a week — then carries on exactly where
+          it left off once you say yes. Nothing is lost by waiting.</p>
+        <p><b>Use this for anything you can't take back:</b> submitting a tender, emailing a
+          client, sending a candidate's details, transmitting a deliverable.</p></div>
+      <div class="card nope"><span class="tag">Notify after ✗</span>
+        <h3>"I've submitted this."</h3>
+        <p>It already happened. You're reading a notification, not making a decision.</p>
+        <p>This is how something everyone calls "the approval step" turns out to be
+          <b>an announcement</b> — usually discovered at the worst possible moment.</p></div>
     </div>
-  </section>
+    <p>When someone shows you an automated process, this is the first question worth asking:
+      <strong>"Does it stop and wait for me, or does it tell me afterwards?"</strong></p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">One irreversible step, one human saying yes first. Bids, client emails,
+        candidate data — no exceptions.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the slide with the clearest financial consequence — make it vivid.</b></p>
+    <p><b>Give the scenario:</b> "Picture a system that assembles our tender response and submits it to GeBIZ at the deadline. Someone tells you there's an approval step. But it emails the partner <i>as</i> it submits. That's not approval — that's a receipt. And the bid is gone."</p>
+    <p><b>Give them the question to take away.</b> Say it twice: "Does it stop and wait for me, or does it tell me afterwards?" That single question separates a real approval process from a fake one, and they don't need any technical knowledge to ask it.</p>
+    <p><b>Mention the free benefit.</b> Because the system records every step and every approval as it goes, you get the audit trail automatically — who approved what, when, based on what information. For government work that's not a bonus, it's often a requirement, and here you get it without anyone maintaining a separate spreadsheet.</p>
+    <p><b>Tie back to slide 11:</b> a human approval also resets the error build-up. Once you've verified it, everything downstream starts from a clean, checked position.</p>
+  </div>
+</section>
 
-  <!-- 16 -->
-  <section class="slide" data-r="4">
-    <div class="wrap">
-      <div class="eyebrow">Worked example</div>
-      <h2>The Monday morning tender loop.</h2>
-      <div class="split">
-        <div class="card">
-          <span class="tag" style="color:var(--fail)">Today</span>
-          <p>Every Monday a BD manager spends <strong>three hours</strong> checking GeBIZ and
-            agency portals, opening each tender, deciding whether it fits, and writing a summary
-            for the Tuesday pipeline meeting.</p>
-          <p>It is dull, repetitive, and when they are on leave <strong>it does not happen.</strong></p>
-        </div>
-        <div class="card yes">
-          <span class="tag">As a loop</span>
-          <p><strong>Trigger</strong> — Monday 06:00.<br>
-             <strong>Topology</strong> — scan, filter against our capability profile, summarise.<br>
-             <strong>Verifier</strong> — all fields populated? deadline a real future date? source
-             URL resolves? PII scan clean? <em>All mechanical.</em><br>
-             <strong>Stop</strong> — pass → draft an issue per tender; 2 failed retries → escalate.</p>
-          <p>Monday becomes <strong>twenty minutes of triage</strong> on a pre-filtered list.</p>
-        </div>
-      </div>
-      <div class="note">Deliberately <strong>not</strong> automated: the bid/no-bid decision.
-        That is judgement, money and relationships. The loop prepares the decision — the human
-        makes it. They just stopped being the search engine.</div>
+<!-- 17 ................................................................ -->
+<section class="slide" data-r="4">
+  <div class="wrap">
+    <div class="eyebrow">Level 04 · Worked example for BD</div>
+    <h2>Monday morning tender scanning.</h2>
+    <div class="split">
+      <div class="card nope"><span class="tag">Today</span>
+        <p>Every Monday, someone spends <b>three hours</b> going through GeBIZ and agency
+          portals, opening each new tender, working out whether it's worth bidding, and writing
+          it up for the Tuesday pipeline meeting.</p>
+        <p>It's dull, it's repetitive, and when that person is on leave, <b>it simply doesn't
+          happen.</b></p></div>
+      <div class="card yes"><span class="tag">As a loop</span>
+        <p><b>6am Monday</b> — it checks what's new since last week.<br>
+          <b>Filters</b> — against what we can actually deliver.<br>
+          <b>Summarises</b> — scope, value, closing date, compulsory requirements.<br>
+          <b>Checks</b> — every field filled? closing date real and in the future? link works?<br>
+          <b>Then stops</b> and hands you the list.</p>
+        <p>You arrive Monday to <b>twenty minutes of triage</b> on a filtered, summarised list.</p></div>
     </div>
-  </section>
+    <p><strong>What is deliberately not automated: the decision to bid.</strong> That's
+      judgement, money and relationships. The loop does the searching and the summarising.
+      You still decide — you just stopped being the search engine.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Automate the <em>finding</em> and the <em>checking</em>. Never the
+        <em>deciding</em>.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>This is the payoff slide for BD — make the current pain real first.</b> Ask whoever does the Monday scan how long it takes and what happens when they're away. Let them answer. The honest answer is usually "it doesn't get done", and that's a live commercial risk: a missed tender is a missed bid.</p>
+    <p><b>Walk through the checks and point out they're all factual.</b> Is the field filled in? Is the closing date a real date in the future? Does the link work? No opinions anywhere — which is why this is a good, safe first automation.</p>
+    <p><b>Emphasise the boundary hard.</b> The loop never decides whether to bid. Say it clearly, because this is where people get nervous: "It hands you a shortlist. You decide. What it removes is three hours of clicking through portals."</p>
+    <p><b>Point out the fairness angle:</b> the loop runs whether or not someone is on leave, sick, or busy with a live bid. Consistency is the underrated benefit.</p>
+    <p><b>Ask the room for their version.</b> "What's the equivalent three hours on your desk?" Write the answers down — that's your genuine starting backlog.</p>
+  </div>
+</section>
 
-  <!-- 17 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">Where we actually are</div>
-      <h2>Climb it in order. Don’t jump to 5.</h2>
-      <div class="ladder">
-        <div class="now"><span class="st">LVL 0</span><span class="nm">Manual chat</span>
-          <span class="ds">You prompt, read, copy-paste. <strong>← most of us are here</strong></span></div>
-        <div class="free"><span class="st">LVL 1</span><span class="nm">Saved prompts</span>
-          <span class="ds">A shared, versioned prompt library. <strong>Free — no technology needed</strong></span></div>
-        <div class="free"><span class="st">LVL 2</span><span class="nm">Checklisted run</span>
-          <span class="ds">Documented sequence + written verification checklist. <strong>Free</strong></span></div>
-        <div><span class="st">LVL 3</span><span class="nm">Assisted loop</span>
-          <span class="ds">Agent runs it; human verifies every output.</span></div>
-        <div><span class="st">LVL 4</span><span class="nm">Verified loop</span>
-          <span class="ds">Automated verifier gates. Human sees exceptions plus samples.</span></div>
-        <div><span class="st">LVL 5</span><span class="nm">Scheduled loop</span>
-          <span class="ds">Triggers itself, keeps state, escalates when stuck.</span></div>
-      </div>
-      <p><strong>Level 2 is where you discover what your verifier needs to check.</strong> Teams
-        that skip it build loops that confidently verify the wrong things. Write the checklist by
-        hand, use it for a fortnight, <em>then</em> automate it.</p>
+<!-- 18 ................................................................ -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">Where we actually are</div>
+    <h2>Six levels. We're on the first one.</h2>
+    <div class="ladder">
+      <div class="now"><span class="st">LVL 0</span><span class="nm">Chatting</span>
+        <span class="ds">You type, read, copy, paste. <b>← almost all of us, today</b></span></div>
+      <div class="free"><span class="st">LVL 1</span><span class="nm">Saved prompts</span>
+        <span class="ds">The good ones written down where everyone can find them. <b>Free — no technology needed</b></span></div>
+      <div class="free"><span class="st">LVL 2</span><span class="nm">Written checklist</span>
+        <span class="ds">The steps written out, plus what "done properly" means. <b>Free</b></span></div>
+      <div><span class="st">LVL 3</span><span class="nm">AI does it, you check everything</span>
+        <span class="ds">Still fully supervised.</span></div>
+      <div><span class="st">LVL 4</span><span class="nm">AI does it and checks itself</span>
+        <span class="ds">You see the exceptions, plus a random sample.</span></div>
+      <div><span class="st">LVL 5</span><span class="nm">It runs on schedule</span>
+        <span class="ds">Starts itself, remembers, escalates when stuck.</span></div>
     </div>
-  </section>
+    <p><strong>Don't jump to the end.</strong> Level 2 is where you find out what your checklist
+      actually needs to catch. Skip it and you build something that confidently checks the wrong
+      things.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Levels 1 and 2 need no budget, no software and no permission. That's most
+        of the value, available this week.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Be honest about where we are.</b> Level 0 isn't a criticism — it's where nearly every company is. But say plainly that staying there is a choice.</p>
+    <p><b>Push hard on levels 1 and 2 being free.</b> No purchase, no IT project, no approval needed. It's writing things down. If leadership is in the room, this is the low-risk ask: give people time to document what they already do.</p>
+    <p><b>Explain why skipping to level 5 fails.</b> "If you automate a process you've never written down, you're guessing at what to check. You'll build something that passes everything and catches nothing." The two weeks of manual checklist use is where you discover the real failure modes.</p>
+    <p><b>Set a realistic target.</b> Suggest: every team at level 2 on one process within a month. That's achievable and it's genuinely useful on its own — even if we stop there.</p>
+  </div>
+</section>
 
-  <!-- 18 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">Non-negotiable</div>
-      <h2>Before any of this touches real data.</h2>
-      <div class="grid g2">
-        <div class="cell"><span class="k">Never, in any tool</span>
-          <span class="v">NRIC / FIN · passport numbers · candidate phone, email, address ·
-            dates of birth · medical information · client-confidential terms in a consumer account</span></div>
-        <div class="cell"><span class="k">Always</span>
-          <span class="v">Anonymise <strong>before</strong> the prompt, not after the output ·
-            approved tools only · human review before anything leaves CGP</span></div>
-      </div>
-      <div class="quote">Would you be comfortable if this exact text appeared in a regulator’s
-        file, attributed to CGP, with the client’s name attached? <strong>If not, it does not go
-        into an AI tool.</strong></div>
-      <p>Singapore’s frameworks are voluntary — but <strong>AI Verify is moving into
-        public-sector procurement standards.</strong> For a firm bidding on government work,
-        demonstrable AI governance is becoming a qualification to bid, not a compliance overhead.</p>
-      <div class="note">PDPA penalties: up to S$1m, or 10% of Singapore turnover above S$10m ·
-        NRIC authentication must stop by 31 Dec 2026 · Verify all of this with Legal and the DPO.</div>
+<!-- 19 ................................................................ -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">The rules · non-negotiable</div>
+    <h2>Before any of this touches real data.</h2>
+    <div class="grid g2">
+      <div class="cell"><span class="k">Never — in any AI tool</span>
+        <span class="v">NRIC or FIN numbers · passport numbers · candidate phone numbers,
+          personal emails or addresses · dates of birth · medical information · client pricing
+          or contract terms in a personal AI account</span></div>
+      <div class="cell"><span class="k">Always</span>
+        <span class="v">Take personal details out <strong>before</strong> you paste, not after ·
+          approved tools only · a person reads it before it leaves CGP</span></div>
     </div>
-  </section>
+    <div class="quote">Would you be comfortable if this exact text turned up in a regulator's
+      file, with CGP's name on it and the client's name next to it?
+      <strong>If not, it doesn't go in.</strong></div>
+    <p>Singapore's AI rules are still mostly voluntary — but <strong>AI Verify is being built
+      into government procurement standards.</strong> For a firm bidding on public-sector work,
+      being able to show how we govern AI is turning into a <em>reason we win or lose bids</em>,
+      not just a compliance chore.</p>
+    <div class="note">PDPA penalties reach S$1m, or 10% of Singapore turnover for larger firms ·
+      NRIC can't be used for identity verification after 31 Dec 2026 ·
+      Confirm all specifics with Legal and the DPO.</div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Don't rush this because it's near the end. For a firm handling candidate data and government work, it's the slide with real consequences.</b></p>
+    <p><b>Be absolutely unambiguous on NRIC.</b> There is never a good reason for an NRIC to be in a prompt. Screening, summarising, matching, ranking — none of them need an identity number. If one's in there, something went wrong upstream.</p>
+    <p><b>Give the regulator test and encourage people to actually use it.</b> It resolves most edge cases faster than reading a policy document.</p>
+    <p><b>Make reporting safe, explicitly.</b> Say this out loud: "If you paste something you shouldn't have, tell your manager and the DPO the same day. Reporting a mistake is never a disciplinary matter. Hiding one is." People only report if they believe that, and near-misses are how we fix the process.</p>
+    <p><b>Flip it commercially for the BD audience.</b> Being able to show how we govern AI use is becoming a scored part of public-sector bids. Good governance isn't overhead here — it's increasingly the reason we're allowed to compete.</p>
+  </div>
+</section>
 
-  <!-- 19 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">Monday morning</div>
-      <h2>Six things, in order.</h2>
-      <div class="steps">
-        <div><span class="n">01</span><span class="t">Read</span><span class="d">Start Here + Compliance. 30 minutes.</span></div>
-        <div><span class="n">02</span><span class="t">Write one process down</span><span class="d">Something you repeat weekly, as numbered steps.</span></div>
-        <div><span class="n">03</span><span class="t">Write its checklist</span><span class="d">What does “done correctly” mean? Which checks are mechanical?</span></div>
-        <div><span class="n">04</span><span class="t">Share your best prompt</span><span class="d">Into the shared library, via a pull request.</span></div>
-        <div><span class="n">05</span><span class="t">Run it manually</span><span class="d">Two weeks against your own checklist. Note every failure.</span></div>
-        <div><span class="n">06</span><span class="t">Only then automate</span><span class="d">And automate the <em>checking</em> before the <em>drafting</em>.</span></div>
-      </div>
-      <p>The most valuable first automation is not a drafting assistant. It is a
-        <strong>PII detector</strong> — fully mechanical, addresses the highest-risk failure in
-        the business, and protects everything built after it.</p>
+<!-- 20 ................................................................ -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">Monday morning</div>
+    <h2>Six things, in order.</h2>
+    <div class="steps">
+      <div><span class="n">01</span><span class="t">Read the rules</span><span class="d">Start Here and Compliance. Half an hour.</span></div>
+      <div><span class="n">02</span><span class="t">Write one process down</span><span class="d">Something you do every week. Numbered steps.</span></div>
+      <div><span class="n">03</span><span class="t">Write what "done" means</span><span class="d">The checklist. Which items are simple yes/no facts?</span></div>
+      <div><span class="n">04</span><span class="t">Share your best prompt</span><span class="d">Put it where the team can find it.</span></div>
+      <div><span class="n">05</span><span class="t">Use your own checklist</span><span class="d">Two weeks. Write down every time it fails.</span></div>
+      <div><span class="n">06</span><span class="t">Then think about automating</span><span class="d">And automate the <em>checking</em> before the <em>writing</em>.</span></div>
     </div>
-  </section>
+    <p>The most valuable thing we could build first isn't a writing assistant. It's a
+      <strong>personal-data detector</strong> — a simple check that spots an NRIC or a phone
+      number before anything is sent anywhere. Boring, entirely factual, and it protects
+      everything else we build afterwards.</p>
+    <div class="takeaway"><span class="k">Takeaway</span>
+      <span class="t">Steps 1 to 5 cost nothing but attention. Nobody needs permission to
+        start them.</span></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Make step 5 the one you emphasise.</b> Using your own checklist manually for two weeks feels like a delay. It isn't — it's how you find out what the checklist is missing. Every failure you write down becomes a check worth building.</p>
+    <p><b>Explain "check before write" once more, since it's counter-intuitive.</b> Everyone wants AI to write things. But a bad draft is obvious and gets fixed. A missed check is silent — a pricing table that doesn't add up, a missing compulsory section, an NRIC left in a file. Those are the ones that actually cost us.</p>
+    <p><b>Ask for a named volunteer per team.</b> One process, one person, written up within a month. Vague commitments produce nothing; a named person and a date produce something.</p>
+    <p><b>Point to the repository as the place it all goes.</b> Not someone's inbox, not a personal drive — the shared, versioned place where everyone can find it and changes get reviewed.</p>
+  </div>
+</section>
 
-  <!-- 20 -->
-  <section class="slide" data-r="0">
-    <div class="wrap">
-      <div class="eyebrow">The one question</div>
-      <h1 style="font-size:var(--s5)">Not “can this be automated?”<br>
-        <span style="color:var(--accent-fg)">“Can this be verified?”</span></h1>
-      <p class="lead">If you cannot define “done correctly” in writing, you do not have an
-        automation candidate. You have an unaudited liability waiting to happen.</p>
-      <div class="note">Full material, sourced data, playbooks, prompt library and templates:<br>
-        <a href="https://github.com/lancelaxa/Your-Augmented-Colleague">github.com/lancelaxa/Your-Augmented-Colleague</a>
-        &nbsp;·&nbsp; Every statistic in this deck is cited in <strong>learn/06-EVIDENCE-PACK.md</strong></div>
-    </div>
-  </section>
+<!-- 21 ................................................................ -->
+<section class="slide" data-r="0">
+  <div class="wrap">
+    <div class="eyebrow">If you remember one thing</div>
+    <h1 style="font-size:var(--s5)">Not "can AI do this?"<br>
+      <span style="color:var(--accent-fg)">"Would I know if it got it wrong?"</span></h1>
+    <p class="lead">If you can't write down what "done properly" looks like, you're not ready to
+      automate it — you'd just be creating work nobody is checking.</p>
+    <div class="note">Everything from today, plus the sources for every number:<br>
+      <a href="https://github.com/lancelaxa/Your-Augmented-Colleague">github.com/lancelaxa/Your-Augmented-Colleague</a></div>
+  </div>
+  <div class="notes"><h4>Talking points</h4>
+    <p><b>Close on the question, not on a summary.</b> It's the one thing that transfers to situations you didn't cover today.</p>
+    <p><b>Use it to reframe the whole session:</b> "Every slide today was really one question in different clothing. Can you tell whether it's right? If yes, you can safely lean on it. If no, keep a person in the loop."</p>
+    <p><b>Give them a concrete next step, not just inspiration.</b> Point at the repository. Tell them the prompt library is there and takes two minutes to add to. Tell them the compliance rules are there and to read them before their next real prompt.</p>
+    <p><b>Leave time for questions</b> — and if the honest answer is "I don't know", say so and write it down. The material is a living document; questions you can't answer are how it improves.</p>
+  </div>
+</section>
 
 </div>
 
 <div class="hud">
   <span>Beyond the Prompt · CGP</span>
-  <span class="keys">← → navigate &nbsp;·&nbsp; P print</span>
+  <span class="keys">← → navigate &nbsp;·&nbsp; N notes &nbsp;·&nbsp; P print</span>
   <nav>
+    <button type="button" id="notes" aria-label="Toggle speaker notes">Notes</button>
     <button type="button" id="prev" aria-label="Previous slide">Prev</button>
-    <span style="padding:.28rem .5rem"><b id="cur">1</b> / <span id="tot">20</span></span>
+    <span style="padding:.28rem .5rem"><b id="cur">1</b> / <span id="tot">21</span></span>
     <button type="button" id="next" aria-label="Next slide">Next</button>
   </nav>
 </div>
@@ -662,7 +870,7 @@
   var slides=[].slice.call(document.querySelectorAll('.slide'));
   var rail=[].slice.call(document.querySelectorAll('.rail b'));
   var cur=document.getElementById('cur'), tot=document.getElementById('tot');
-  var prog=document.getElementById('prog');
+  var prog=document.getElementById('prog'), nBtn=document.getElementById('notes');
   var i=0;
   tot.textContent=slides.length;
 
@@ -675,8 +883,14 @@
     prog.style.width=((i+1)/slides.length*100)+'%';
     if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
   }
+  function toggleNotes(){
+    var on=document.body.classList.toggle('notes-on');
+    nBtn.classList.toggle('active',on);
+    nBtn.setAttribute('aria-pressed',on?'true':'false');
+  }
   document.getElementById('next').addEventListener('click',function(){show(i+1)});
   document.getElementById('prev').addEventListener('click',function(){show(i-1)});
+  nBtn.addEventListener('click',toggleNotes);
   document.addEventListener('keydown',function(e){
     if(e.metaKey||e.ctrlKey||e.altKey) return;
     var k=e.key;
@@ -684,6 +898,7 @@
     else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();show(i-1)}
     else if(k==='Home'){e.preventDefault();show(0)}
     else if(k==='End'){e.preventDefault();show(slides.length-1)}
+    else if(k==='n'||k==='N'){e.preventDefault();toggleNotes()}
     else if(k==='p'||k==='P'){e.preventDefault();window.print()}
   });
   var start=parseInt((location.hash||'').slice(1),10);

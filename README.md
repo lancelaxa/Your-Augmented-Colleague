@@ -54,10 +54,26 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 
 ---
 
+## 🎤 The slide deck
+
+**[▶ Beyond the Prompt — Loop & Graph Engineering](slides/index.html)** · 20 slides, ~30 minutes
+
+Built for an audience that already understands prompt engineering, and picks up from there.
+Open [`slides/index.html`](slides/index.html) in any browser — arrow keys to navigate,
+`P` to print or export to PDF. No installation, no dependencies, works offline.
+
+Covers: the four rungs · context rot · loop anatomy and the verifier problem · the
+compounding-reliability mathematics · graph primitives and approval gates · the maturity
+ladder · the compliance floor. Every figure in it is cited in the
+[Evidence Pack](learn/06-EVIDENCE-PACK.md).
+
+---
+
 ## 🚀 Start here
 
 | If you are… | Go to |
 |---|---|
+| **Presenting to the team** | [The slide deck](slides/index.html) |
 | **New to all of this** | [learn/00-START-HERE.md](learn/00-START-HERE.md) |
 | **Short on time (1 hour)** | [Context](learn/02-CONTEXT-ENGINEERING.md) → [Loop](learn/03-LOOP-ENGINEERING.md) → [Evidence](learn/06-EVIDENCE-PACK.md) |
 | **Presenting to leadership** | [Evidence pack](learn/06-EVIDENCE-PACK.md) + [Stack compared](learn/05-THE-STACK-COMPARED.md) |

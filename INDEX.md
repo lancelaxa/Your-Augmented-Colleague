@@ -11,6 +11,7 @@
 
 | "I need to…" | Go to |
 |---|---|
+| **Present this to my team** | **[slides/index.html](slides/index.html)** |
 | Understand what this repo is | [README.md](README.md) |
 | Start learning AI properly | [learn/00-START-HERE.md](learn/00-START-HERE.md) |
 | Know what I can/can't put into AI | [compliance/COMPLIANCE.md](compliance/COMPLIANCE.md) |

@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beyond the Prompt — Loop &amp; Graph Engineering | CGP</title>
+<meta name="description" content="Loop and graph engineering for non-technical operations teams. A 30-minute deck for CGP.">
+</head>
+<body>
+<style>
+  :root{
+    --ink-900:#0A1418; --ink-800:#0F1D23; --ink-700:#16292F; --ink-600:#1E3A42;
+    --signal:#D98A2B; --signal-soft:rgba(217,138,43,.14); --signal-line:rgba(217,138,43,.38);
+    --pass:#4E9E7E; --fail:#C0563E;
+    --bg:var(--ink-900); --panel:var(--ink-800); --line:rgba(155,183,190,.16);
+    --fg:#EAF0F1; --fg-dim:#9DB2B8; --fg-faint:#63797F;
+    --accent-fg:var(--signal);
+    --rail-off:rgba(155,183,190,.18);
+    --font-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --s1:clamp(.72rem,.62rem + .3vw,.82rem);
+    --s2:clamp(.95rem,.86rem + .4vw,1.12rem);
+    --s3:clamp(1.15rem,1rem + .7vw,1.5rem);
+    --s4:clamp(1.6rem,1.2rem + 1.8vw,2.5rem);
+    --s5:clamp(2.1rem,1.4rem + 3.2vw,4rem);
+    --s6:clamp(3rem,1.6rem + 6.5vw,7.5rem);
+  }
+  @media (prefers-color-scheme:light){
+    :root{
+      --bg:#EDF0F0; --panel:#E3E8E8; --line:rgba(14,32,38,.14);
+      --fg:#0A1418; --fg-dim:#42575D; --fg-faint:#75898E;
+      --accent-fg:#9C6318; --signal-soft:rgba(217,138,43,.16); --signal-line:rgba(156,99,24,.4);
+      --pass:#2F7358; --fail:#9E3F2B; --rail-off:rgba(14,32,38,.16);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EDF0F0; --panel:#E3E8E8; --line:rgba(14,32,38,.14);
+    --fg:#0A1418; --fg-dim:#42575D; --fg-faint:#75898E;
+    --accent-fg:#9C6318; --signal-soft:rgba(217,138,43,.16); --signal-line:rgba(156,99,24,.4);
+    --pass:#2F7358; --fail:#9E3F2B; --rail-off:rgba(14,32,38,.16);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A1418; --panel:#0F1D23; --line:rgba(155,183,190,.16);
+    --fg:#EAF0F1; --fg-dim:#9DB2B8; --fg-faint:#63797F;
+    --accent-fg:#D98A2B; --signal-soft:rgba(217,138,43,.14); --signal-line:rgba(217,138,43,.38);
+    --pass:#4E9E7E; --fail:#C0563E; --rail-off:rgba(155,183,190,.18);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:var(--font-sans); font-size:var(--s2); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- rail ---- */
+  .rail{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:stretch;
+    gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+  .rail b{flex:1;background:var(--bg);padding:.5rem .75rem;font-family:var(--font-mono);
+    font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--rail-off);display:flex;align-items:center;gap:.5rem;transition:color .3s,background .3s}
+  .rail b i{font-style:normal;opacity:.65}
+  .rail b.on{color:var(--accent-fg);background:var(--signal-soft)}
+  .rail b.on i{opacity:1}
+
+  .prog{position:fixed;top:0;left:0;height:2px;background:var(--accent-fg);z-index:41;
+    transition:width .35s cubic-bezier(.4,0,.2,1)}
+
+  /* ---- slide shell ---- */
+  .deck{position:relative}
+  .slide{display:none;min-height:100vh;padding:5.5rem clamp(1.25rem,5vw,5.5rem) 4.5rem;
+    flex-direction:column;justify-content:center;gap:1.5rem}
+  .slide.on{display:flex}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:1.35rem}
+  @media (prefers-reduced-motion:no-preference){
+    .slide.on .wrap>*{animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards}
+    .slide.on .wrap>*:nth-child(2){animation-delay:.05s}
+    .slide.on .wrap>*:nth-child(3){animation-delay:.1s}
+    .slide.on .wrap>*:nth-child(4){animation-delay:.15s}
+    .slide.on .wrap>*:nth-child(5){animation-delay:.2s}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  }
+
+  /* ---- type ---- */
+  .eyebrow{font-family:var(--font-mono);font-size:var(--s1);letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent-fg);display:flex;align-items:center;gap:.7rem}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--signal-line);max-width:5rem}
+  h1{font-size:var(--s5);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0;
+    text-wrap:balance}
+  h2{font-size:var(--s4);line-height:1.1;letter-spacing:-.028em;font-weight:750;margin:0;
+    text-wrap:balance}
+  h3{font-size:var(--s3);line-height:1.25;letter-spacing:-.015em;font-weight:700;margin:0}
+  p{margin:0;max-width:66ch;color:var(--fg-dim)}
+  p.lead{font-size:var(--s3);color:var(--fg);max-width:56ch;line-height:1.4}
+  strong{color:var(--fg);font-weight:680}
+  em{font-style:normal;color:var(--accent-fg)}
+  .mono{font-family:var(--font-mono)}
+
+  /* ---- components ---- */
+  .quote{border-left:2px solid var(--accent-fg);padding:.3rem 0 .3rem 1.4rem;
+    font-size:var(--s3);line-height:1.4;color:var(--fg);max-width:60ch;text-wrap:balance}
+  .quote cite{display:block;margin-top:.7rem;font-family:var(--font-mono);font-size:var(--s1);
+    font-style:normal;letter-spacing:.08em;color:var(--fg-faint)}
+
+  .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .cell{background:var(--bg);padding:1.15rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
+  .cell .k{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--fg-faint)}
+  .cell .v{font-size:var(--s2);color:var(--fg-dim)}
+  .cell.hi{background:var(--signal-soft)}
+  .cell.hi .k{color:var(--accent-fg)}
+
+  .stat{font-family:var(--font-mono);font-size:var(--s6);line-height:.86;font-weight:600;
+    letter-spacing:-.045em;font-variant-numeric:tabular-nums;color:var(--accent-fg)}
+  .stat.ok{color:var(--pass)} .stat.no{color:var(--fail)}
+  .statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2.5rem}
+  .statrow .lbl{margin-top:.85rem;font-size:var(--s2);color:var(--fg-dim);max-width:34ch}
+
+  table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:var(--s2)}
+  th,td{padding:.6rem .8rem;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--fg-faint);font-weight:500;
+    border-bottom:1px solid var(--signal-line)}
+  tbody td{font-family:var(--font-mono);color:var(--fg-dim)}
+  tbody tr.key td{color:var(--fg);font-weight:600}
+  tbody tr.key{background:var(--signal-soft)}
+  td.crit{color:var(--fail);font-weight:600}
+  td.good{color:var(--pass)}
+  .scroll{overflow-x:auto;border:1px solid var(--line);padding:.3rem .9rem .1rem}
+
+  .steps{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .steps>div{flex:1 1 165px;background:var(--bg);padding:1.05rem 1.1rem;display:flex;
+    flex-direction:column;gap:.45rem}
+  .steps .n{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;color:var(--accent-fg)}
+  .steps .t{font-weight:700;font-size:var(--s2)}
+  .steps .d{font-size:var(--s1);color:var(--fg-dim);line-height:1.45}
+
+  .ladder{display:flex;flex-direction:column;gap:1px;background:var(--line);
+    border:1px solid var(--line)}
+  .ladder>div{background:var(--bg);padding:.7rem 1.1rem;display:flex;align-items:baseline;
+    gap:1rem;flex-wrap:wrap}
+  .ladder .st{font-family:var(--font-mono);font-size:var(--s1);color:var(--accent-fg);
+    letter-spacing:.1em;min-width:3.4rem}
+  .ladder .nm{font-weight:700;min-width:11rem}
+  .ladder .ds{color:var(--fg-dim);font-size:var(--s1);flex:1;min-width:200px}
+  .ladder>div.now{background:var(--signal-soft)}
+  .ladder>div.free{border-left:2px solid var(--pass)}
+
+  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem}
+  .card{border:1px solid var(--line);padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:.6rem}
+  .card.yes{border-color:var(--pass)}
+  .card.nope{border-color:var(--fail)}
+  .card .tag{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.16em;
+    text-transform:uppercase}
+  .card.yes .tag{color:var(--pass)} .card.nope .tag{color:var(--fail)}
+
+  ul{margin:0;padding-left:1.15rem;display:flex;flex-direction:column;gap:.5rem;
+    color:var(--fg-dim);max-width:64ch}
+  li::marker{color:var(--accent-fg)}
+
+  .note{font-family:var(--font-mono);font-size:var(--s1);color:var(--fg-faint);
+    border-top:1px solid var(--line);padding-top:.8rem;max-width:70ch}
+
+  a{color:var(--accent-fg);text-decoration:none;border-bottom:1px solid var(--signal-line)}
+  a:hover{border-bottom-color:var(--accent-fg)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent-fg);outline-offset:3px}
+
+  /* ---- chrome ---- */
+  .hud{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;
+    justify-content:space-between;align-items:center;gap:1rem;
+    padding:.7rem clamp(1.25rem,5vw,5.5rem);border-top:1px solid var(--line);
+    background:var(--bg);font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--fg-faint)}
+  .hud b{color:var(--fg);font-variant-numeric:tabular-nums;font-weight:600}
+  .hud nav{display:flex;gap:.4rem}
+  .hud button{font:inherit;letter-spacing:inherit;text-transform:inherit;
+    background:transparent;color:var(--fg-faint);border:1px solid var(--line);
+    padding:.28rem .6rem;cursor:pointer;transition:color .2s,border-color .2s}
+  .hud button:hover{color:var(--accent-fg);border-color:var(--signal-line)}
+  @media (max-width:640px){.hud .keys{display:none}}
+
+  @media print{
+    .rail,.hud,.prog{display:none}
+    .slide{display:flex!important;min-height:auto;page-break-after:always;padding:1.5cm}
+    body{background:#fff;color:#000}
+    :root{--bg:#fff;--fg:#000;--fg-dim:#333;--fg-faint:#666;--line:#ccc;--accent-fg:#9C6318}
+  }
+</style>
+
+<div class="prog" id="prog"></div>
+<div class="rail" id="rail">
+  <b data-r="1"><i>01</i> Prompt</b>
+  <b data-r="2"><i>02</i> Context</b>
+  <b data-r="3"><i>03</i> Loop</b>
+  <b data-r="4"><i>04</i> Graph</b>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">CGP · HQ Operations · AI Literacy</div>
+      <h1>Beyond the prompt.</h1>
+      <p class="lead">You already know how to write a good prompt. This is about the three
+        things stacked on top of it — and the one number that governs all of them.</p>
+      <div class="note">A 30-minute walkthrough for recruitment, business development and
+        HQ operations. Full material at <strong>github.com/lancelaxa/Your-Augmented-Colleague</strong></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-r="1">
+    <div class="wrap">
+      <div class="eyebrow">Starting point</div>
+      <h2>You know this part already.</h2>
+      <p class="lead">Role, task, context, constraints, format, an example. Show one worked
+        example and quality jumps. Give it an “I don’t know” exit and it stops inventing.</p>
+      <div class="grid g3">
+        <div class="cell"><span class="k">You can do</span><span class="v">Write a precise prompt</span></div>
+        <div class="cell"><span class="k">You can do</span><span class="v">Get a usable draft back</span></div>
+        <div class="cell hi"><span class="k">The wall</span><span class="v">Nothing you learned survives the conversation</span></div>
+      </div>
+      <p>The good prompt you wrote on Tuesday is gone by Thursday. Your colleague solves the
+        same problem from scratch next week. Nobody can check what the AI was told before it
+        produced the report that went to a client.</p>
+      <div class="note">That is not a prompting problem. Better wording will not fix it.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">Why this matters commercially</div>
+      <h2>Two numbers that are both true.</h2>
+      <div class="statrow">
+        <div>
+          <div class="stat ok">66%</div>
+          <div class="lbl">of knowledge workers using AI say it lets them spend more time on
+            high-value work.<br><span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Microsoft Work Trend Index 2026 · n=20,000</span></div>
+        </div>
+        <div>
+          <div class="stat no">89%</div>
+          <div class="lbl">of firms measured <strong>zero</strong> productivity impact.<br>
+            <span class="mono" style="font-size:var(--s1);color:var(--fg-faint)">Study of 6,000 executives</span></div>
+        </div>
+      </div>
+      <p class="lead">Individuals get faster. Organisations mostly do not.</p>
+      <div class="note">Everyone has the same models. The gap is not the tool — it is that
+        individual improvements are never written down, versioned, reviewed or re-run.</div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">The ladder</div>
+      <h2>Four rungs. They stack, they don’t replace.</h2>
+      <div class="steps">
+        <div><span class="n">01 PROMPT</span><span class="t">One message</span>
+          <span class="d">What do I say? <br>You control the wording.</span></div>
+        <div><span class="n">02 CONTEXT</span><span class="t">The whole window</span>
+          <span class="d">What should it see? <br>You control the information.</span></div>
+        <div><span class="n">03 LOOP</span><span class="t">One agent’s cycle</span>
+          <span class="d">How does it run without me — and when does it stop?</span></div>
+        <div><span class="n">04 GRAPH</span><span class="t">Many agents</span>
+          <span class="d">Who does what, in what order, with which approvals?</span></div>
+      </div>
+      <p>A graph is made of loops. A loop is made of prompts running against a context.
+        Getting good at rung 3 does not let you skip rung 1 — <strong>a bad prompt inside an
+        automated loop is just a bad prompt that now runs 200 times unsupervised.</strong></p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-r="2">
+    <div class="wrap">
+      <div class="eyebrow">Rung 02 · Context engineering</div>
+      <h2>The skill is curation, not accumulation.</h2>
+      <p class="lead">Everyone’s instinct on a bad answer is to paste in more. That makes it
+        worse — and the failure has a name.</p>
+      <div class="grid g3">
+        <div class="cell"><span class="k">Distraction</span><span class="v">60 pages of tender boilerplate bury the 3 evaluation criteria</span></div>
+        <div class="cell"><span class="k">Clashing</span><span class="v">v3 and v7 of the pricing sheet are both in the folder</span></div>
+        <div class="cell"><span class="k">Poisoning</span><span class="v">Turn 2 misreads the deadline. Turns 3–40 build on it.</span></div>
+      </div>
+      <p><strong>Context rot:</strong> as the window fills, the model’s ability to attend to
+        what matters degrades. Bigger context windows did not solve this.</p>
+      <div class="note">Four moves — WRITE it outside the window · SELECT only what this step
+        needs · COMPRESS finished work · ISOLATE into separate windows.</div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-r="2">
+    <div class="wrap">
+      <div class="eyebrow">Rung 02 · In practice</div>
+      <h2>What “good context” looks like here.</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Task</th><th style="text-align:left">Weak</th><th style="text-align:left">Strong</th></tr></thead>
+          <tbody>
+            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Screen a CV</td>
+              <td style="text-align:left">The CV alone</td>
+              <td style="text-align:left;color:var(--fg)">Anonymised CV + role brief + scoring rubric + one worked example</td></tr>
+            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Draft a tender response</td>
+              <td style="text-align:left">“Write an RFP response”</td>
+              <td style="text-align:left;color:var(--fg)">Evaluation criteria + our 3 best past responses + win themes + page limit</td></tr>
+            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Weekly status report</td>
+              <td style="text-align:left">“Summarise the project”</td>
+              <td style="text-align:left;color:var(--fg)">Milestone tracker + last week’s report + closed issues + the template</td></tr>
+            <tr><td style="font-family:var(--font-sans);color:var(--fg)">Summarise a policy doc</td>
+              <td style="text-align:left">The 80-page PDF</td>
+              <td style="text-align:left;color:var(--fg)">The 6 pages that changed + last version’s summary + “what changed?”</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The pattern in the right column: <em>the rubric, the template, the prior example, the
+        delta.</em> Three of those four are files that should live in a shared repository.</p>
+      <div class="note">This is where AI literacy and “learn GitHub” become the same project.
+        The repo is not where you store the work — the repo <strong>is</strong> the context.</div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · Loop engineering</div>
+      <h2>Named in June 2026. Not a buzzword — a dated shift.</h2>
+      <div class="quote">Developers shouldn’t be prompting coding agents anymore. They should
+        be designing loops that prompt your agents.
+        <cite>Peter Steinberger — the line that named it</cite></div>
+      <div class="quote">Prompt-by-prompt supervision stopped scaling with review capacity.
+        <cite>Addy Osmani — on why the shift happened</cite></div>
+      <p class="lead">Read that second one again. It is the business case in one sentence.</p>
+      <p>The bottleneck was never that AI couldn’t do more. It is that <strong>a human has to
+        look at everything it does</strong>, and there are only so many hours. For a team whose
+        week is spent checking other people’s work, that is not a technical curiosity — it is
+        the job description.</p>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · Anatomy</div>
+      <h2>Four parts. Miss one and you have a liability.</h2>
+      <div class="steps">
+        <div><span class="n">01 TRIGGER</span><span class="t">What starts it</span>
+          <span class="d">A schedule, an event, a queue. Without one you don’t have a loop — you have a task you must remember to run.</span></div>
+        <div><span class="n">02 TOPOLOGY</span><span class="t">What it does</span>
+          <span class="d">The work itself. Your prompt and context skills, unchanged.</span></div>
+        <div><span class="n">03 VERIFIER</span><span class="t">The independent check</span>
+          <span class="d">Something other than the doer decides whether it is actually done.</span></div>
+        <div><span class="n">04 STOP RULE</span><span class="t">The boundary</span>
+          <span class="d">Pass, budget exhausted, or escalate to a human. You need all three.</span></div>
+      </div>
+      <div class="quote" style="border-color:var(--fail)">A loop with no verifier is not
+        automation. It is an unsupervised intern with your client’s letterhead.</div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · The hard part</div>
+      <h2>Agents aim for “looks done”.</h2>
+      <p class="lead">Ask for a tender response and you get something shaped exactly like a
+        tender response. Right length, right headings, confident tone.</p>
+      <p>Whether the pricing table reconciles, whether the certifications cited are ones we
+        actually hold, whether it answers the question asked — those are different properties.
+        <strong>Nothing in “generate a document” optimises for them.</strong></p>
+      <div class="quote">The whole reason you split the verifier from the maker is to make the
+        loop’s “it’s done” mean something. And even then, <strong>“done” is a claim, not a
+        proof.</strong></div>
+      <div class="note">Which is why high-stakes output still needs a human gate — see rung 04.</div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · Verifier strength</div>
+      <h2>Push every check as far down this list as you can.</h2>
+      <div class="ladder">
+        <div><span class="st">★☆☆☆☆</span><span class="nm">Self-check</span>
+          <span class="ds">“Now check your answer.” Very low trust — it already thinks it’s right.</span></div>
+        <div><span class="st">★★☆☆☆</span><span class="nm">Second agent, same prompt</span>
+          <span class="ds">Correlated blind spots.</span></div>
+        <div><span class="st">★★★☆☆</span><span class="nm">Adversarial prompt</span>
+          <span class="ds">“Find three things wrong with this.” Framing does real work.</span></div>
+        <div><span class="st">★★★★☆</span><span class="nm">Rubric-based</span>
+          <span class="ds">Score against a fixed written checklist. Reproducible, auditable.</span></div>
+        <div class="now"><span class="st">★★★★★</span><span class="nm">Mechanical</span>
+          <span class="ds">Does the pricing table sum? Is every mandatory section present?
+            <strong>Not an opinion — a fact.</strong></span></div>
+      </div>
+      <p>Checks that are already mechanical in our work, and nobody is using them:
+        every mandatory RFP section present · quoted rates match the approved card ·
+        <em>any NRIC-shaped string in a CV summary</em> · every named certification on our verified list.</p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · The constraint</div>
+      <h2>Reliability compounds downward.</h2>
+      <p class="lead">If each step succeeds with probability <span class="mono">p</span>, an
+        <span class="mono">N</span>-step run succeeds with <span class="mono">p<sup>N</sup></span>.
+        This is arithmetic, not pessimism.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Per-step accuracy</th><th>3 steps</th><th>5</th><th>10</th><th>20</th><th>100</th></tr></thead>
+          <tbody>
+            <tr><td>70%</td><td>34.3%</td><td>16.8%</td><td class="crit">2.8%</td><td class="crit">0.1%</td><td class="crit">~0%</td></tr>
+            <tr><td>90%</td><td>72.9%</td><td>59.0%</td><td class="crit">34.9%</td><td class="crit">12.2%</td><td class="crit">~0%</td></tr>
+            <tr class="key"><td>95%</td><td>85.7%</td><td>77.4%</td><td class="crit">59.9%</td><td class="crit">35.8%</td><td class="crit">0.6%</td></tr>
+            <tr><td>99%</td><td>97.0%</td><td>95.1%</td><td class="good">90.4%</td><td>81.8%</td><td class="crit">36.6%</td></tr>
+            <tr><td>99.9%</td><td>99.7%</td><td>99.5%</td><td class="good">99.0%</td><td class="good">98.0%</td><td class="good">90.5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>A 95%-accurate agent is a 60%-accurate workflow after ten steps.</strong>
+        The fix is not a better model. It is fewer steps, mechanical checks, and human
+        checkpoints.</p>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · Two consequences</div>
+      <h2>Retrying wrong makes it worse. Gates make it better.</h2>
+      <div class="split">
+        <div class="card nope">
+          <span class="tag">The retry trap</span>
+          <div class="stat no" style="font-size:var(--s5)">7.1×</div>
+          <p>Failed attempts raise the per-step error rate by <strong>7.1× over baseline</strong>
+            — because the failed attempt stays in the conversation and contaminates the next one.
+            <span class="mono" style="font-size:var(--s1)">Rutgers, May 2026</span></p>
+          <p><strong>So “just try again” is actively harmful.</strong> Retry with a <em>clean
+            context</em>: reset the window, keep the task plus a short note on what failed.</p>
+        </div>
+        <div class="card yes">
+          <span class="tag">The reset</span>
+          <div class="stat ok" style="font-size:var(--s5)">↺</div>
+          <p>Once a human confirms an output, <strong>the accumulated failure risk resets</strong>
+            — the rest of the chain starts fresh from a verified state.</p>
+          <p><strong>A human gate is not friction. It is a mathematical reset on compounding
+            error.</strong> Place them before anything irreversible, client-facing, contractual,
+            or touching personal data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide" data-r="3">
+    <div class="wrap">
+      <div class="eyebrow">Rung 03 · What actually breaks</div>
+      <h2>It is not intelligence. It is bookkeeping.</h2>
+      <div class="statrow">
+        <div><div class="stat">60%</div>
+          <div class="lbl">of production agent incidents trace back to <strong>state-management
+            failures</strong> — the leading category, ahead of model quality.</div></div>
+        <div><div class="stat no">70–95%</div>
+          <div class="lbl">of agent projects fail in production. Mostly engineering-discipline
+            failures, not model failures.</div></div>
+      </div>
+      <div class="grid g3">
+        <div class="cell"><span class="k">Failure 01</span><span class="v">Tool misuse</span></div>
+        <div class="cell"><span class="k">Failure 02</span><span class="v">Context loss</span></div>
+        <div class="cell"><span class="k">Failure 03</span><span class="v">Goal drift</span></div>
+        <div class="cell"><span class="k">Failure 04</span><span class="v">Retry loops</span></div>
+        <div class="cell"><span class="k">Failure 05</span><span class="v">Cascading errors</span></div>
+        <div class="cell hi"><span class="k">Failure 06</span><span class="v">Silent quality degradation</span></div>
+      </div>
+      <div class="note">#06 is the dangerous one. The others announce themselves. Silent
+        degradation looks exactly like success on the dashboard — which is why you sample-audit
+        5–10% of passed outputs forever.</div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide" data-r="4">
+    <div class="wrap">
+      <div class="eyebrow">Rung 04 · Graph engineering</div>
+      <h2>Loops are one agent. Graphs are the org chart.</h2>
+      <p class="lead">A loop breaks the moment the path has to branch, route between
+        specialists, or survive a human in the middle.</p>
+      <div class="grid g3">
+        <div class="cell hi"><span class="k">State</span><span class="v"><strong>The case file</strong> that travels with the job. Every desk reads it, adds to it, passes it on.</span></div>
+        <div class="cell hi"><span class="k">Nodes</span><span class="v"><strong>The desks.</strong> One person or team doing one thing.</span></div>
+        <div class="cell hi"><span class="k">Edges</span><span class="v"><strong>The handover rules.</strong> “If value &gt; S$500k, route to partner.”</span></div>
+      </div>
+      <p>You draw the steps and connections <em>ahead of time</em>, and let the model fill in
+        the boxes. You trade some autonomy for something operations teams value far more:
+        <strong>predictability, auditability, and the ability to put a gate anywhere.</strong></p>
+      <div class="note">You already understand graphs. An org chart is a graph. An approval
+        workflow is a graph. A tender process with stage gates is a graph.</div>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide" data-r="4">
+    <div class="wrap">
+      <div class="eyebrow">Rung 04 · The detail that catches everyone</div>
+      <h2>Approve before, or find out after.</h2>
+      <div class="split">
+        <div class="card yes">
+          <span class="tag">interrupt_before</span>
+          <h3>“May I send this to the client?”</h3>
+          <p>The process pauses, persists its state, and waits — for a minute or a week —
+            then resumes exactly where it stopped, with full context intact.</p>
+          <p><strong>Use this for anything irreversible:</strong> submitting a bid, emailing a
+            client, publishing a report, transmitting personal data.</p>
+        </div>
+        <div class="card nope">
+          <span class="tag">interrupt_after</span>
+          <h3>“I have sent this to the client.”</h3>
+          <p>The action has <strong>already happened</strong> before the pause.</p>
+          <p>Getting this backwards is how an “approval workflow” turns out to be a
+            <em>notification workflow</em> — discovered at the worst possible moment.</p>
+        </div>
+      </div>
+      <div class="note">Bonus: every state change gets checkpointed, so you can inspect, rewind
+        and fork any point — like git commits. <strong>The audit trail becomes a by-product of
+        the architecture</strong> rather than a documentation chore.</div>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide" data-r="4">
+    <div class="wrap">
+      <div class="eyebrow">Worked example</div>
+      <h2>The Monday morning tender loop.</h2>
+      <div class="split">
+        <div class="card">
+          <span class="tag" style="color:var(--fail)">Today</span>
+          <p>Every Monday a BD manager spends <strong>three hours</strong> checking GeBIZ and
+            agency portals, opening each tender, deciding whether it fits, and writing a summary
+            for the Tuesday pipeline meeting.</p>
+          <p>It is dull, repetitive, and when they are on leave <strong>it does not happen.</strong></p>
+        </div>
+        <div class="card yes">
+          <span class="tag">As a loop</span>
+          <p><strong>Trigger</strong> — Monday 06:00.<br>
+             <strong>Topology</strong> — scan, filter against our capability profile, summarise.<br>
+             <strong>Verifier</strong> — all fields populated? deadline a real future date? source
+             URL resolves? PII scan clean? <em>All mechanical.</em><br>
+             <strong>Stop</strong> — pass → draft an issue per tender; 2 failed retries → escalate.</p>
+          <p>Monday becomes <strong>twenty minutes of triage</strong> on a pre-filtered list.</p>
+        </div>
+      </div>
+      <div class="note">Deliberately <strong>not</strong> automated: the bid/no-bid decision.
+        That is judgement, money and relationships. The loop prepares the decision — the human
+        makes it. They just stopped being the search engine.</div>
+    </div>
+  </section>
+
+  <!-- 17 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">Where we actually are</div>
+      <h2>Climb it in order. Don’t jump to 5.</h2>
+      <div class="ladder">
+        <div class="now"><span class="st">LVL 0</span><span class="nm">Manual chat</span>
+          <span class="ds">You prompt, read, copy-paste. <strong>← most of us are here</strong></span></div>
+        <div class="free"><span class="st">LVL 1</span><span class="nm">Saved prompts</span>
+          <span class="ds">A shared, versioned prompt library. <strong>Free — no technology needed</strong></span></div>
+        <div class="free"><span class="st">LVL 2</span><span class="nm">Checklisted run</span>
+          <span class="ds">Documented sequence + written verification checklist. <strong>Free</strong></span></div>
+        <div><span class="st">LVL 3</span><span class="nm">Assisted loop</span>
+          <span class="ds">Agent runs it; human verifies every output.</span></div>
+        <div><span class="st">LVL 4</span><span class="nm">Verified loop</span>
+          <span class="ds">Automated verifier gates. Human sees exceptions plus samples.</span></div>
+        <div><span class="st">LVL 5</span><span class="nm">Scheduled loop</span>
+          <span class="ds">Triggers itself, keeps state, escalates when stuck.</span></div>
+      </div>
+      <p><strong>Level 2 is where you discover what your verifier needs to check.</strong> Teams
+        that skip it build loops that confidently verify the wrong things. Write the checklist by
+        hand, use it for a fortnight, <em>then</em> automate it.</p>
+    </div>
+  </section>
+
+  <!-- 18 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">Non-negotiable</div>
+      <h2>Before any of this touches real data.</h2>
+      <div class="grid g2">
+        <div class="cell"><span class="k">Never, in any tool</span>
+          <span class="v">NRIC / FIN · passport numbers · candidate phone, email, address ·
+            dates of birth · medical information · client-confidential terms in a consumer account</span></div>
+        <div class="cell"><span class="k">Always</span>
+          <span class="v">Anonymise <strong>before</strong> the prompt, not after the output ·
+            approved tools only · human review before anything leaves CGP</span></div>
+      </div>
+      <div class="quote">Would you be comfortable if this exact text appeared in a regulator’s
+        file, attributed to CGP, with the client’s name attached? <strong>If not, it does not go
+        into an AI tool.</strong></div>
+      <p>Singapore’s frameworks are voluntary — but <strong>AI Verify is moving into
+        public-sector procurement standards.</strong> For a firm bidding on government work,
+        demonstrable AI governance is becoming a qualification to bid, not a compliance overhead.</p>
+      <div class="note">PDPA penalties: up to S$1m, or 10% of Singapore turnover above S$10m ·
+        NRIC authentication must stop by 31 Dec 2026 · Verify all of this with Legal and the DPO.</div>
+    </div>
+  </section>
+
+  <!-- 19 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">Monday morning</div>
+      <h2>Six things, in order.</h2>
+      <div class="steps">
+        <div><span class="n">01</span><span class="t">Read</span><span class="d">Start Here + Compliance. 30 minutes.</span></div>
+        <div><span class="n">02</span><span class="t">Write one process down</span><span class="d">Something you repeat weekly, as numbered steps.</span></div>
+        <div><span class="n">03</span><span class="t">Write its checklist</span><span class="d">What does “done correctly” mean? Which checks are mechanical?</span></div>
+        <div><span class="n">04</span><span class="t">Share your best prompt</span><span class="d">Into the shared library, via a pull request.</span></div>
+        <div><span class="n">05</span><span class="t">Run it manually</span><span class="d">Two weeks against your own checklist. Note every failure.</span></div>
+        <div><span class="n">06</span><span class="t">Only then automate</span><span class="d">And automate the <em>checking</em> before the <em>drafting</em>.</span></div>
+      </div>
+      <p>The most valuable first automation is not a drafting assistant. It is a
+        <strong>PII detector</strong> — fully mechanical, addresses the highest-risk failure in
+        the business, and protects everything built after it.</p>
+    </div>
+  </section>
+
+  <!-- 20 -->
+  <section class="slide" data-r="0">
+    <div class="wrap">
+      <div class="eyebrow">The one question</div>
+      <h1 style="font-size:var(--s5)">Not “can this be automated?”<br>
+        <span style="color:var(--accent-fg)">“Can this be verified?”</span></h1>
+      <p class="lead">If you cannot define “done correctly” in writing, you do not have an
+        automation candidate. You have an unaudited liability waiting to happen.</p>
+      <div class="note">Full material, sourced data, playbooks, prompt library and templates:<br>
+        <a href="https://github.com/lancelaxa/Your-Augmented-Colleague">github.com/lancelaxa/Your-Augmented-Colleague</a>
+        &nbsp;·&nbsp; Every statistic in this deck is cited in <strong>learn/06-EVIDENCE-PACK.md</strong></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="hud">
+  <span>Beyond the Prompt · CGP</span>
+  <span class="keys">← → navigate &nbsp;·&nbsp; P print</span>
+  <nav>
+    <button type="button" id="prev" aria-label="Previous slide">Prev</button>
+    <span style="padding:.28rem .5rem"><b id="cur">1</b> / <span id="tot">20</span></span>
+    <button type="button" id="next" aria-label="Next slide">Next</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var rail=[].slice.call(document.querySelectorAll('.rail b'));
+  var cur=document.getElementById('cur'), tot=document.getElementById('tot');
+  var prog=document.getElementById('prog');
+  var i=0;
+  tot.textContent=slides.length;
+
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,x){s.classList.toggle('on',x===i)});
+    var r=slides[i].getAttribute('data-r');
+    rail.forEach(function(b){b.classList.toggle('on',b.getAttribute('data-r')===r)});
+    cur.textContent=i+1;
+    prog.style.width=((i+1)/slides.length*100)+'%';
+    if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+  }
+  document.getElementById('next').addEventListener('click',function(){show(i+1)});
+  document.getElementById('prev').addEventListener('click',function(){show(i-1)});
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){e.preventDefault();show(i+1)}
+    else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();show(i-1)}
+    else if(k==='Home'){e.preventDefault();show(0)}
+    else if(k==='End'){e.preventDefault();show(slides.length-1)}
+    else if(k==='p'||k==='P'){e.preventDefault();window.print()}
+  });
+  var start=parseInt((location.hash||'').slice(1),10);
+  show(isNaN(start)?0:start-1);
+})();
+</script>
+</body>
+</html>

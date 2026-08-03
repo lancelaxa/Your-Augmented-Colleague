@@ -50,7 +50,16 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ## [Unreleased]
 
-*Nothing pending.*
+### Added
+
+- `slides/index.html` — presentation deck, "Beyond the Prompt: Loop & Graph Engineering".
+  20 slides pitched at an audience already familiar with prompt engineering. Self-contained
+  single file: keyboard navigation, print/PDF export, light and dark themes, no external
+  dependencies. Linked from README and INDEX.
+
+### Changed
+
+- `README.md`, `INDEX.md` — added deck links.
 
 ---
 

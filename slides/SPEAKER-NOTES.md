@@ -1,12 +1,12 @@
 # Speaker Notes
 
-> Presenter cues for **[Beyond the Prompt](index.html)** — 15 slides, about 25 minutes.
+> Presenter cues for **[Beyond the Prompt](index.html)** — 16 slides, about 25 minutes.
 
 The slides are a backdrop, not a script. These are cues, not paragraphs — glance, don't read.
 
 **Every slide ends with a → bridge**: the sentence that carries the room into the next one.
 If you say nothing else from these notes, say the bridge — it's what keeps the talk feeling
-like one argument instead of fifteen unrelated points.
+like one argument instead of sixteen unrelated points.
 
 Press **`N`** during the talk to show these on screen, or **`P`** to print the deck with
 notes underneath. Generated from the deck, so the two can't drift apart.
@@ -176,46 +176,64 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 - **Make it familiar:** same failure as working from last month's rate card, or two people editing different copies of a tender.
 - **The fix:** one tracker per role or project. When something changes, it changes *there* — and that file is what you hand the AI, not your memory of a conversation.
 
-**→ "One living file that travels with the job — that idea is the whole of the last level."**
+**→ "Everything so far still ends with you copying the answer somewhere. The last level is where that stops."**
 
 ---
 
-## 11. A loop is one person. A graph is the flowchart.
+## 11. An agent doesn't write about the work. It does it.
 
-`Level 04 · Graphs, simply`
+`Level 04 · Agents`
 
-**On screen:** Nothing new to learn. It's your approval process, drawn properly.
+**On screen:** Chat hands you words. An agent takes actions — including ones
+ you can't take back.
 
-- **No technical language on this slide at all.**
-- **Take the mystery out:** "Anyone drawn a process on a whiteboard with boxes and arrows? Congratulations, you've done graph engineering. The only new part is drawing it precisely enough that software can follow it."
-- **Say it:** "You already have graphs. Your tender approval is a graph. Your hiring pipeline is a graph."
-- **Example — BD:** enquiry in → qualify → bid/no-bid → write → compliance → price approved → submit. Seven boxes, six arrows.
-- **The case file is a folder travelling between desks** — reference number, closing date, compulsory requirements, draft answers, compliance sign-off, approved pricing. Lose a piece and someone downstream decides on incomplete information.
-- **Test the room:** "Who signs off a S$300,000 bid?" If you get three answers or a pause — *that's the finding.* Say so.
-- **Then give the action, don't leave it hanging:** "The fix isn't AI. It's writing the approval thresholds down, once, where everyone can see them. That's an afternoon's work and it makes every later step possible."
+- **The one-line definition:** "Chat writes. An agent does. The difference is that an agent has been given hands — access to your calendar, your files, your email, a website."
+- **Make it concrete with their own week:** chat drafts the shortlist summary and you paste it into the tracker. An agent reads yesterday's applications, writes the summaries, and files them in the shared folder — while you were asleep.
+- **Name the trade honestly:** "It saves the copying. It also means a mistake doesn't sit harmlessly in a chat window — it goes out."
+- **What they're genuinely good at:** repetitive gathering, sorting, filing, first drafts, checking things against a list. **Bad at:** anything needing judgement, relationships, or knowing what isn't written down.
+- *If someone asks whether we have these: say honestly where CGP is today, and that the rules on the next two slides apply whenever we do.*
 
-**→ "Once you've drawn the flowchart, the only question left is where the approvals go."**
+**→ "So if it can act on its own, the way you brief it matters much more than it did for chat."**
 
 ---
 
-## 12. Approve before. Not find out after.
+## 12. Give it a goal and a fence.
 
-`Level 04 · The costly mistake`
+`Level 04 · Briefing an agent`
+
+**On screen:** A goal with no fence is how an agent does something helpful and
+ wrong.
+
+- **Read a real brief out loud** so they hear all four parts: *"Screen yesterday's applications against the scoring sheet and save the summaries to the shared folder. Don't contact anyone. Don't change anything in the recruitment system. Flag any application missing a required field, and stop if you hit more than five."*
+- **Point at each part as you say it:** goal · fence · proof · stop. All four, every time.
+- **The fence is the new bit.** With chat you never had to say "don't email anyone" — it couldn't. With an agent you do.
+- **Default to read-only.** Let it look at things before you ever let it change or send things. Widen the fence later, once it's earned it.
+- **Tie back to the loop:** "Goal, fence, proof, stop — that's the same trigger, work, check, stop rule from earlier, with one addition: the fence."
+
+**→ "There's one part of the fence that matters more than all the others, and it's worth its own slide."**
+
+---
+
+## 13. Approve before. Not find out after.
+
+`Level 04 · The rule that matters most`
 
 **On screen:** Ask every vendor: does it stop and wait for me, or tell me
  afterwards?
 
-- **Make it vivid:** "A system assembles our tender and submits to GeBIZ at the deadline. There's an 'approval step' — but it emails the partner *as* it submits. That's not approval, that's a receipt. And the bid is gone."
+- **This is the part of the fence that matters most.** An agent that only reads is low risk. An agent that sends, submits, books or deletes is a different thing entirely.
+- **Make it vivid:** "An agent assembles our tender and submits it to GeBIZ at the deadline. There's an 'approval step' — but it emails the partner *as* it submits. That's not approval, that's a receipt. And the bid is gone."
 - **Give them the question and say it twice.** It separates a real approval process from a fake one, and needs no technical knowledge.
 - **Applies to anything you can't take back:** submitting a tender, emailing a client, sending candidate details.
-- **Free benefit:** the system records every step and approval as it goes, so the audit trail writes itself — often a requirement for government work.
-- **Worked example if you have time:** Monday tender scanning — three hours on GeBIZ becomes twenty minutes of triage. It finds and summarises; *it never decides whether to bid*.
+- **Free benefit:** a good agent records every step and approval as it goes, so the audit trail writes itself — often a requirement for government work.
+- *If someone asks what comes after agents: several agents working together with approvals between them. That's covered in the repo — it's a bigger topic than we need today.*
+- **Worked example if you have time:** Monday tender scanning — three hours on GeBIZ becomes twenty minutes of triage. The agent finds and summarises; *it never decides whether to bid, and it never submits anything*.
 
 **→ "That's all four levels. So where do we actually start on Monday?"**
 
 ---
 
-## 13. Pick one process. Move it one stage.
+## 14. Pick one process. Move it one stage.
 
 `Where we actually are`
 
@@ -233,7 +251,7 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 14. Never in any AI tool.
+## 15. Never in any AI tool.
 
 `The rules · non-negotiable`
 
@@ -249,7 +267,7 @@ notes underneath. Generated from the deck, so the two can't drift apart.
 
 ---
 
-## 15. Not "can AI do this?"  "Would I know if it got  it wrong?"
+## 16. Not "can AI do this?"  "Would I know if it got  it wrong?"
 
 `If you remember one thing`
 

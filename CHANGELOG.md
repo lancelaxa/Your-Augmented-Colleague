@@ -52,12 +52,26 @@ Entries move from `[Unreleased]` into a dated version at each review cycle.
 
 ### Added
 
-- `slides/index.html` — presentation deck, "Beyond the Prompt". 15 slides, about 25
+- `slides/index.html` — presentation deck, "Beyond the Prompt". 16 slides, about 25
   minutes, for a non-technical audience that already uses AI at work. Self-contained
   single file: keyboard navigation, on-screen speaker notes (`N`), print/PDF export,
   light and dark themes, no external dependencies.
-- `slides/SPEAKER-NOTES.md` — presenter cues for all 15 slides, generated from the deck
+- `slides/SPEAKER-NOTES.md` — presenter cues for all 16 slides, generated from the deck
   so the two cannot drift apart.
+- `learn/08-USING-AGENTS.md` — practical guide to agents: the chat/agent distinction,
+  what agents suit, the goal-fence-proof-stop brief, approve-before rules, agent-specific
+  failure modes including prompt injection and permission creep, and a staged rollout
+  starting read-only.
+
+### Deck scope: agents rather than graphs
+
+The deck's fourth level is **agents**, not graph engineering. Graphs are a bigger topic
+than a 25-minute session can carry, and nobody needs them before running a single agent
+successfully. `learn/04-GRAPH-ENGINEERING.md` remains in the repository in full — the deck
+and `08-USING-AGENTS.md` both point to it as the next step for anyone being pitched a
+multi-agent system. The approve-before-not-after rule moved into the agent section, where
+it matters more: an agent takes real actions, so a gate that fires after the fact is a
+receipt rather than an approval.
 
 ### Changed
 

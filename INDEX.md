@@ -56,6 +56,7 @@
 | [05-THE-STACK-COMPARED.md](learn/05-THE-STACK-COMPARED.md) | Decision tables | 15 min |
 | [06-EVIDENCE-PACK.md](learn/06-EVIDENCE-PACK.md) 📊 | **All data, sourced** | Reference |
 | [07-GITHUB-FOR-NON-CODERS.md](learn/07-GITHUB-FOR-NON-CODERS.md) | Git in ops language | 30 min |
+| [08-USING-AGENTS.md](learn/08-USING-AGENTS.md) | When AI can act — goal, fence, proof, stop | 25 min |
 
 ### `/compliance` — Governance
 

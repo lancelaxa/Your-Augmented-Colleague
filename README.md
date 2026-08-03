@@ -56,7 +56,7 @@ Everyone has the same models. [Sources](learn/06-EVIDENCE-PACK.md#c-adoption-and
 
 ## 🎤 The slide deck
 
-**[▶ Beyond the Prompt](slides/index.html)** · 15 slides, ~25 minutes ·
+**[▶ Beyond the Prompt](slides/index.html)** · 16 slides, ~25 minutes ·
 **[Speaker notes](slides/SPEAKER-NOTES.md)**
 
 Plain language, for people who already use AI at work but have no technical background.
@@ -123,6 +123,7 @@ graph LR
 | 05 | [The Stack Compared](learn/05-THE-STACK-COMPARED.md) | Decision tables. When to use which |
 | 06 | [**Evidence Pack**](learn/06-EVIDENCE-PACK.md) 📊 | **Every statistic, sourced. Build slides from this** |
 | 07 | [GitHub for Non-Coders](learn/07-GITHUB-FOR-NON-CODERS.md) | Repos, branches, PRs, issues — in ops language |
+| 08 | [Using Agents](learn/08-USING-AGENTS.md) | When AI can *act*: goal, fence, proof, stop. Approve-before rules |
 
 ### The three ideas that matter most
 

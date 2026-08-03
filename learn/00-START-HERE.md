@@ -78,6 +78,7 @@ bad prompt that now runs 200 times without supervision.
 | 05 | [The stack compared](05-THE-STACK-COMPARED.md) | 15 min | Decision tables — when to use which |
 | 06 | [Evidence pack](06-EVIDENCE-PACK.md) | — | **Every statistic, sourced. Use this to present.** |
 | 07 | [GitHub for non-coders](07-GITHUB-FOR-NON-CODERS.md) | 30 min | Repos, issues, PRs — in ops language |
+| 08 | [**Using agents**](08-USING-AGENTS.md) | 25 min | When AI can *act*: goal, fence, proof, stop |
 
 If you have **one hour total**, read 02, then 03, then 06.
 
